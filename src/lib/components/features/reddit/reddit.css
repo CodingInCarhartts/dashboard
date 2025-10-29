@@ -1,1 +1,25 @@
-/* Add RedditWidget specific styles here */
+.reddit-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 0.25rem;
+}
+
+/* Custom scrollbar styling */
+.reddit-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.reddit-list::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: 3px;
+}
+
+.reddit-list::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 3px;
+}
+
+.reddit-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
