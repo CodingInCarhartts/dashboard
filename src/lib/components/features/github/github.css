@@ -79,7 +79,7 @@
   overflow-y: auto;
   min-height: 0;
   max-height: 120px;
-  border-radius: var(--border-radius)
+  border-radius: var(--border-radius);
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
@@ -142,8 +142,9 @@
   }
 
   .github-header {
+    position: absolute;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 0.5rem;
   }
 

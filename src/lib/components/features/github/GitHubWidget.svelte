@@ -45,9 +45,23 @@
   }
 </script>
 
-<div class="widget">
+<div class="widget-hub">
+  
+  {#if loading}
+    <p>Loading...</p>
+  {:else if error}
+    <p>{error}</p>
+  {:else}
+    <ul class="github-list" bind:this={listElement}>
+      {#each repos as repo, index}
+        <li class="github-item" class:active={index === currentIndex}>
+          <GitHubRepoItem {repo} />
+        </li>
+      {/each}
+    </ul>
+  {/if}
   <div class="github-header">
-    <h3 class="github-title">GitHub Repos</h3>
+    <!-- <h3 class="github-title">GitHub Repos</h3> -->
     {#if !loading && !error && repos.length > 0}
       <div class="github-controls">
         <button
@@ -64,18 +78,5 @@
       </div>
     {/if}
   </div>
-  {#if loading}
-    <p>Loading...</p>
-  {:else if error}
-    <p>{error}</p>
-  {:else}
-    <ul class="github-list" bind:this={listElement}>
-      {#each repos as repo, index}
-        <li class="github-item" class:active={index === currentIndex}>
-          <GitHubRepoItem {repo} />
-        </li>
-      {/each}
-    </ul>
-  {/if}
 </div>
 
