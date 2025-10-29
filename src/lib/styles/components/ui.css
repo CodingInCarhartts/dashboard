@@ -1,0 +1,115 @@
+/* Shared UI Component Styles */
+
+/* Widget base styles */
+.widget {
+  @apply bg-card text-card-foreground rounded-lg border p-4 shadow-sm;
+  background: var(--card);
+  border-color: var(--border);
+}
+
+/* Loading states */
+.loading-spinner {
+  @apply animate-spin rounded-full border-2 border-muted border-t-primary;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Error states */
+.error-message {
+  @apply text-destructive text-sm;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md font-medium transition-colors;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md font-medium transition-colors;
+}
+
+/* Form elements */
+.input-field {
+  @apply bg-background border border-input rounded-md px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring;
+}
+
+.select-field {
+  @apply bg-background border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring;
+}
+
+/* List styles */
+.list-item {
+  @apply border-b border-border last:border-b-0;
+}
+
+.list-item:hover {
+  @apply bg-muted/50;
+}
+
+/* Badge styles */
+.badge {
+  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+}
+
+.badge-primary {
+  @apply bg-primary text-primary-foreground;
+}
+
+.badge-secondary {
+  @apply bg-secondary text-secondary-foreground;
+}
+
+.badge-success {
+  @apply bg-success text-success-foreground;
+}
+
+.badge-warning {
+  @apply bg-warning text-warning-foreground;
+}
+
+.badge-destructive {
+  @apply bg-destructive text-destructive-foreground;
+}
+
+/* Avatar styles */
+.avatar {
+  @apply relative flex shrink-0 overflow-hidden rounded-full;
+}
+
+.avatar-sm {
+  @apply h-8 w-8;
+}
+
+.avatar-md {
+  @apply h-10 w-10;
+}
+
+.avatar-lg {
+  @apply h-12 w-12;
+}
+
+/* Tooltip styles */
+.tooltip {
+  @apply absolute z-50 overflow-hidden rounded-md bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95;
+}
+
+/* Modal/Dialog styles */
+.modal-overlay {
+  @apply fixed inset-0 z-50 bg-background/80 backdrop-blur-sm;
+}
+
+.modal-content {
+  @apply fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .widget {
+    @apply p-3;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    @apply px-3 py-1.5 text-sm;
+  }
+}

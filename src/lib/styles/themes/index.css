@@ -1,0 +1,3 @@
+@import './light.css';
+
+/* Default to light theme, can be toggled with data-theme="dark" on html element */

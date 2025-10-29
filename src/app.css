@@ -4,8 +4,10 @@
 @import "flowbite/dist/flowbite.min.css";
 
 /* Import base styles */
+@import "./lib/styles/themes/index.css";
 @import "./lib/styles/typography.css";
 @import "./lib/styles/components/widgets.css";
+@import "./lib/styles/components/ui.css";
 
 @custom-variant dark (&:is(.dark *));
 
