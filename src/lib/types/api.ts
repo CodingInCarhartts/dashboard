@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import type { KickChannel, KickApiResponse } from './kick';
+import type { KickApiResponse } from './kick';
 import type { DevtoArticle } from './devto';
 import type { Market } from './markets';
 import type { EconomicIndicator } from './economic';
@@ -9,7 +9,7 @@ import type { Provider, ChatModel, Message } from './chat';
 import type { HNStory } from './hacker-news';
 import type { WeatherApiResponse } from './weather';
 import type { YouTubeApiResponse } from './videos';
-import type { RssItem, RssApiResponse } from './rss';
+import type { RssApiResponse } from './rss';
 
 export interface KickService {
   fetchKickChannels(channelSlugs: string[]): Promise<KickApiResponse>;

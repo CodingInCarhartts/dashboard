@@ -1,16 +1,13 @@
-import { CACHE_CONFIG, KICK_CONFIG, DEVTO_CONFIG, ECONOMIC_CONFIG, CHAT_CONFIG } from './config';
+import { CACHE_CONFIG } from './config';
 import type { KickApiResponse } from './types';
-import { weatherService } from './services/weather';
-import { rssService } from './services/rss';
+
 import { youtubeService } from './services/youtube';
 import { kickService } from './services/kick';
 import { redditService } from './services/reddit';
-import { githubService } from './services/github';
-import { marketsService } from './services/markets';
+
 import { economicService } from './services/economic';
 import { devtoService } from './services/devto';
-import { chatService } from './services/chat';
-import { hackerNewsService } from './services/hacker-news';
+
 import type { CacheEntry, CacheType } from './types';
 
 // Simple in-memory cache with localStorage persistence for client-side

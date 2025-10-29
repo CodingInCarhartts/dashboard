@@ -1,4 +1,4 @@
-import type { KickApiResponse, KickService, KickChannel } from '../../types';
+import type { KickApiResponse, KickService } from '../../types';
 import { KICK_CONFIG } from '../../config';
 
 class KickServiceImpl implements KickService {
