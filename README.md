@@ -1,267 +1,95 @@
-# Glance Dashboard
+# Dashboard
 
-A lightweight, highly customizable dashboard built with SvelteKit, inspired by [Glance](https://github.com/glanceapp/glance). Displays feeds, weather, markets, and more in a beautiful, streamlined interface optimized for modern web development.
-
-![Dashboard Preview](https://via.placeholder.com/800x400/1a1a1a/ffffff?text=Glance+Dashboard+Preview)
+A modern, tabbed dashboard application built with SvelteKit and TypeScript, featuring various widgets for news, weather, development tools, finance, and entertainment.
 
 ## Features
 
-### 📰 Various Widgets
-* **RSS Feeds** - Display articles from multiple RSS sources
-* **Weather** - Current weather with location-based forecasts
-* **Markets** - Real-time stock prices and market data
-* **YouTube Videos** - Latest videos from subscribed channels
-* **Calendar** - Current month calendar view
-* **Hacker News** - Top stories from Hacker News
-* **Extensible** - Easy to add new widget types
-
-### 🎨 Modern Design
-* **Dark Theme** - Beautiful dark mode by default
-* **Responsive** - Optimized for desktop and mobile devices
-* **shadcn/ui** - Modern UI components with Tailwind CSS
-* **Smooth Animations** - Hover effects and transitions
-
-### ⚡ Fast & Lightweight
-* **SvelteKit** - Server-side rendering and client hydration
-* **TypeScript** - Full type safety
-* **Optimized** - Minimal bundle size with tree shaking
-* **Fast Loading** - Efficient data fetching and caching
-
-### 🔧 Highly Customizable
-* **Component-Based** - Easy to modify and extend
-* **Configuration** - Centralized config for feeds and settings
-* **Themes** - CSS variables for easy theming
-* **Mobile-First** - Responsive grid layouts
+- **Tabbed Interface**: Organized into Home, Development, Finance, and Entertainment tabs
+- **Responsive Design**: Works on desktop and mobile devices
+- **Dark/Light Themes**: Automatic theme switching support
+- **Caching**: Built-in caching with TTL for performance
+- **Widgets Include**:
+  - Reddit posts
+  - Weather information
+  - Hacker News stories
+  - GitHub repositories
+  - Dev.to articles
+  - Market indices and stocks
+  - Economic indicators
+  - Kick streaming
+  - YouTube videos
+  - RSS feeds
+  - Calendar events
+  - AI Chat (Gemini/Perplexity)
 
 ## Installation
 
-### Prerequisites
-- Node.js 18+ and npm
-- Git
-
-### Quick Start
-
-1. **Clone the repository**
+1. Clone the repository:
    ```bash
    git clone <repository-url>
    cd dashboard
    ```
 
-2. **Install dependencies**
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. **Configure feeds** (optional)
-   Edit `src/lib/config.ts` to customize RSS feeds, YouTube channels, weather location, etc.
+3. Set up environment variables:
+   ```bash
+   cp src/lib/env.example.ts src/lib/env.ts
+   ```
+   Edit `src/lib/env.ts` and add your API keys:
+   - `KICK_SECRET`: Your Kick API secret
+   - `PERPLEXITY_API_KEY`: Perplexity API key for chat
+   - `GEMINI_API_KEY`: Google Gemini API key for chat
 
-4. **Start development server**
+4. Start the development server:
    ```bash
    npm run dev
    ```
-
-5. **Open in browser**
-   Visit `http://localhost:5173`
-
-### Production Build
-
-```bash
-npm run build
-npm run preview
-```
-
-Or deploy to platforms like Vercel, Netlify, or any Node.js hosting.
-
-## Configuration
-
-The dashboard is configured through `src/lib/config.ts`. This file contains all settings for feeds, locations, and widget data.
-
-### RSS Feeds
-```typescript
-export const RSS_CONFIG = {
-  feeds: [
-    { url: 'https://example.com/feed.xml', title: 'Example Feed' },
-    // Add more feeds...
-  ]
-};
-```
-
-### Weather
-```typescript
-export const WEATHER_CONFIG = {
-  location: 'Your City, Country',
-  latitude: 0.0000,
-  longitude: 0.0000,
-  units: 'imperial' // or 'metric'
-};
-```
-
-### YouTube Channels
-```typescript
-export const VIDEOS_CONFIG = {
-  channels: [
-    { id: 'UCxxxxx', name: 'Channel Name' },
-    // Add more channels...
-  ],
-  limit: 3
-};
-```
-
-### Markets
-```typescript
-export const MARKETS_CONFIG = {
-  markets: [
-    { symbol: 'AAPL', name: 'Apple Inc.' },
-    // Add more stocks...
-  ]
-};
-```
-
-## Project Structure
-
-```
-src/
-├── lib/
-│   ├── components/
-│   │   ├── ui/           # shadcn/ui components
-│   │   └── widgets/      # Dashboard widgets
-│   │       ├── RssWidget.svelte
-│   │       ├── WeatherWidget.svelte
-│   │       └── ...
-│   ├── config.ts         # Configuration file
-│   └── utils.ts          # Utility functions
-├── routes/
-│   ├── +layout.svelte    # Main layout
-│   └── +page.svelte      # Dashboard page
-├── app.css               # Global styles and theme
-└── app.html              # HTML template
-```
 
 ## Development
 
 ### Available Scripts
 
-- `npm run dev` - Start development server
+- `npm run dev` - Start development server with hot reload
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
-- `npm run check` - Type checking and linting
+- `npm run check` - Type checking with svelte-check
 
-### Adding New Widgets
+### Tech Stack
 
-1. Create a new component in `src/lib/components/widgets/`
-2. Add configuration in `src/lib/config.ts`
-3. Import and use in `src/routes/+page.svelte`
-4. Style with CSS variables for theme compatibility
+- **Framework**: SvelteKit + Svelte 5
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS with custom utilities
+- **UI Components**: bits-ui + shadcn-svelte
+- **Adapter**: Deno adapter for deployment
+- **State Management**: Svelte stores
+- **Caching**: Custom TTL-based cache system
 
-### Theming
+### Code Style
 
-The dashboard uses CSS variables for theming. Modify colors in `src/app.css`:
+- 2 spaces indentation, single quotes, no semicolons
+- `$lib/` import alias
+- Explicit types first in imports
+- `$$Props` for component props
+- `@apply` directives in styles
+- `cn()` utility for Tailwind classes
+- No comments in code
+- PascalCase for components, camelCase for variables/functions
+- kebab-case for files
 
-```css
-:root {
-  --background: #ffffff;
-  --foreground: #000000;
-  /* ... */
-}
+## Deployment
 
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  /* ... */
-}
-```
-
-## Technologies Used
-
-- **Framework**: [SvelteKit](https://svelte.dev/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components**: [shadcn/svelte](https://www.shadcn-svelte.com/)
-- **Icons**: [Lucide](https://lucide.dev/) (if used)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-
-## API Usage
-
-The dashboard fetches data from various APIs:
-
-- **RSS Feeds**: Direct XML parsing
-- **Weather**: [Open-Meteo](https://open-meteo.com/) (free, no API key)
-- **Markets**: Mock data (replace with real API like Alpha Vantage)
-- **YouTube**: RSS feeds (no API key required)
-- **Hacker News**: [Official API](https://github.com/HackerNews/API)
-- **Calendar**: Client-side date calculations
+The application uses the Deno adapter for deployment. Build and deploy as needed for your platform.
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-### Guidelines
-- Follow TypeScript best practices
-- Use CSS variables for theming
-- Keep components modular and reusable
-- Test on multiple screen sizes
+1. Follow the established code style
+2. Run type checking before committing: `npm run check`
+3. Test your changes thoroughly
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
-
-## Acknowledgments
-
-- Inspired by [Glance](https://github.com/glanceapp/glance)
-- UI components from [shadcn](https://ui.shadcn.com/)
-- Icons from [Lucide](https://lucide.dev/)
-
-## Roadmap / Future Enhancements
-
-The dashboard is functional but has room for improvement. Planned features include:
-
-### 🚀 High Priority
-- **Data Caching**: Implement client-side caching to reduce API calls and improve performance
-- **Error Handling**: Add error boundaries and retry mechanisms for failed API requests
-- **Loading States**: Better loading indicators and skeleton screens
-
-### 🎯 Medium Priority
-- **Additional Widgets**:
-  - Reddit posts widget
-  - Twitch streams widget
-  - GitHub releases widget
-  - Docker containers status
-  - Server stats widget
-- **Multi-page Support**: Add routing for multiple dashboard pages/tabs
-- **Widget Customization UI**: In-app interface to modify feeds and settings
-
-### 🔧 Low Priority
-- **Advanced Theming**: Light/dark mode toggle with more theme options
-- **PWA Features**: Service worker for offline functionality
-- **Keyboard Navigation**: Full keyboard accessibility
-- **Export/Import Config**: Save and load dashboard configurations
-- **Real Market Data**: Integrate with financial APIs for live stock prices
-
-### 📱 Mobile Enhancements
-- **Touch Gestures**: Swipe between pages on mobile
-- **Responsive Widgets**: Better mobile layouts for complex widgets
-- **Offline Mode**: Cache data for offline viewing
-
-### 🔌 Integrations
-- **Authentication**: User accounts and personalized dashboards
-- **Backend API**: Server-side data processing and caching
-- **Database Storage**: Persistent widget configurations
-- **Real-time Updates**: WebSocket connections for live data
-
-Contributions for any of these features are welcome! See the [Contributing](#contributing) section for guidelines.
-
-## Support
-
-If you find this project helpful, please consider:
-- ⭐ Starring the repository
-- 🐛 Reporting bugs or issues
-- 💡 Suggesting new features
-- 🤝 Contributing code
-
----
-
-Built with ❤️ using SvelteKit and modern web technologies.
+[Add your license here]
