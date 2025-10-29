@@ -1,0 +1,120 @@
+.widget {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  color: var(--card-foreground);
+  transition: all 0.2s ease-in-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 300px;
+}
+
+.widget:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+.widget h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--card-foreground);
+}
+
+.indicators-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 0.25rem;
+}
+
+/* Custom scrollbar styling */
+.indicators-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.indicators-list::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: 3px;
+}
+
+.indicators-list::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 3px;
+}
+
+.indicators-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+.indicator-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--muted);
+}
+
+.indicator-item:last-child {
+  border-bottom: none;
+}
+
+.indicator-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--card-foreground);
+  margin-bottom: 0.125rem;
+}
+
+.frequency {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.indicator-value {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.value {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--card-foreground);
+  margin-bottom: 0.125rem;
+}
+
+.change {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-bottom: 0.125rem;
+}
+
+.positive {
+  color: #10b981;
+}
+
+.negative {
+  color: #ef4444;
+}
+
+.date {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+}

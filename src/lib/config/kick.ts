@@ -1,0 +1,52 @@
+import { KICK_SECRET } from '../env';
+
+export const KICK_CONFIG = {
+  channels: [
+    'mclovins',
+    'gioso',
+    'binks',
+    'zombiebarricades',
+    'block',
+    'ayegavmf',
+    'luiks',
+    'siglow',
+    'divatopia',
+    'haunted',
+    'lordkebun',
+    'ramee',
+    'odablock',
+    'officialtaco',
+    'asmongold',
+    'sifu',
+    'karyn',
+    'skillspecs',
+    'sarah_loopz',
+    'urlittlemia',
+    'whippy',
+    'woodbaby',
+    'southh',
+    'angelknivez',
+    'hoss',
+    'camoetoes',
+    'taydoubleyou',
+    'pkash',
+    'mspistachio',
+    'jxcberry',
+    'proevilz',
+    'aprianera',
+    'zackrawrr',
+    'b0aty',
+    'daddieslittlenox',
+    'baedot',
+    'sashaspits',
+    'babyygrim',
+    'vanessababyy'
+  ],
+  sortBy: 'viewers',
+  collapseAfter: 3,
+  appAuth: {
+    name: "YumlabsLiveMonitor",
+    id: "01K8PZK4HKMTGE895EPAGBR6K7",
+    secret: KICK_SECRET
+  }
+};

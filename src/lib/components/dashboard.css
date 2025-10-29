@@ -1,0 +1,72 @@
+.dashboard {
+  height: 100vh;
+  width: 100%;
+  padding: 0;
+  background: linear-gradient(135deg, var(--background) 0%, var(--muted) 100%);
+  background-attachment: fixed;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex: 1;
+  min-height: 0; /* Allow flex items to shrink below their content size */
+}
+
+.dashboard-grid-2col {
+  grid-template-columns: 1fr 1fr;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 0; /* Allow flex items to shrink */
+}
+
+/* Widget spanning support */
+.widget-span-2 {
+  grid-column: span 2;
+}
+
+.widget-span-3 {
+  grid-column: span 3;
+}
+
+.widget-span-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 0.5rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .column {
+    gap: 1rem;
+  }
+}

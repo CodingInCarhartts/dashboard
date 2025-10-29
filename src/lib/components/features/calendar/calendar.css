@@ -1,0 +1,86 @@
+.widget {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  color: var(--card-foreground);
+  transition: all 0.2s ease-in-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 220px;
+}
+
+.widget:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+.widget h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--card-foreground);
+}
+
+.calendar {
+  width: 100%;
+  overflow-y: auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.header h4 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--card-foreground);
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.125rem;
+  margin-bottom: 0.125rem;
+}
+
+.weekday {
+  text-align: center;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  padding: 0.125rem;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 1.25rem;
+  gap: 0.125rem;
+}
+
+.day {
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  border-radius: 0.125rem;
+  padding: 0.0625rem;
+  color: var(--card-foreground);
+}
+
+.day.current {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 600;
+}
+
+.day:hover {
+  background: var(--muted);
+}

@@ -1,0 +1,1 @@
+export { kickService } from './kickService';

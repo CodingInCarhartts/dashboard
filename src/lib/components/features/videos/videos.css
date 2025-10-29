@@ -1,0 +1,92 @@
+.widget {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  color: var(--card-foreground);
+  transition: all 0.2s ease-in-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 600px;
+}
+
+.widget:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+.widget h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--card-foreground);
+}
+
+.videos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  min-height: 0;
+}
+
+/* Custom scrollbar styling */
+.videos-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.videos-list::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: 3px;
+}
+
+.videos-list::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 3px;
+}
+
+.videos-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+.video-item a {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.video-item a:hover h4 {
+  color: var(--primary);
+}
+
+.thumbnail {
+  max-width: 120px;
+  max-height: 90px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.video-info {
+  flex: 1;
+}
+
+.video-info h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--card-foreground);
+}
+
+.video-info small {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}

@@ -1,0 +1,158 @@
+.widget-hub {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  color: var(--card-foreground);
+  transition: all 0.2s ease-in-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 200px;
+}
+
+.widget:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+.github-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  gap: 0.25rem;
+}
+
+.github-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--card-foreground);
+}
+
+.github-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-button {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--foreground);
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.nav-button:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent-foreground);
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.repo-counter {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  min-width: 3rem;
+  text-align: center;
+}
+
+.github-list {
+  list-style: none;
+  padding: 1rem;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: 120px;
+  border-radius: var(--border-radius)
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.github-item {
+  margin-bottom: 0;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--muted);
+  scroll-snap-align: start;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+}
+
+.github-item:last-child {
+  border-bottom: none;
+}
+
+.github-item.active {
+  background: var(--muted);
+  border-radius: var(--radius);
+  margin: 0 -0.5rem;
+  padding: 0.75rem;
+}
+
+.github-item a {
+  text-decoration: none;
+  color: var(--card-foreground);
+}
+
+.github-item a:hover {
+  color: #f97316;
+}
+
+.github-item strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.meta {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.github-item p {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .widget {
+    max-height: 200px;
+  }
+
+  .github-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .github-controls {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .github-item {
+    min-height: 110px;
+  }
+}
