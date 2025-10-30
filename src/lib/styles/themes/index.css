@@ -1,3 +1,4 @@
 @import './light.css';
+@import './dark.css';
 
-/* Default to light theme, can be toggled with data-theme="dark" on html element */
+/* Default to light theme, dark theme applied when data-theme="dark" is set on html element */
