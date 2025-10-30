@@ -8,6 +8,7 @@ import { redditService } from './services/reddit';
 
 import { economicService } from './services/economic';
 import { devtoService } from './services/devto';
+import { twitchService } from './services/twitch';
 
 import type { CacheEntry, CacheType } from './types';
 
@@ -211,6 +212,17 @@ export async function getCachedKickChannels(channelSlugs: string[]): Promise<Kic
       return await kickService.fetchKickChannels(channelSlugs);
     },
     CACHE_CONFIG.kick.ttl
+  );
+}
+
+export async function getCachedTwitchStreams(userLogins: string[]): Promise<any> {
+  const cacheKey = `twitch_streams_${userLogins.sort().join('_')}`;
+  return cache.getOrFetch(
+    cacheKey,
+    async () => {
+      return await twitchService.fetchTwitchStreams(userLogins);
+    },
+    CACHE_CONFIG.twitch.ttl
   );
 }
 

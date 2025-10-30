@@ -9,3 +9,4 @@ export * as alphaVantage from './alphaVantage';
 export * as economic from './economic';
 export * as devto from './devto';
 export * as chat from './chat';
+export * as twitch from './twitch';

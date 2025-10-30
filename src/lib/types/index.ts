@@ -14,3 +14,4 @@ export * from './cache';
 export * from './utils';
 export * from './tabs';
 export * from './ui';
+export * from './twitch';

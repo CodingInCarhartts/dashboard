@@ -11,3 +11,4 @@ export * from './economic';
 export * from './kick';
 export * from './devto';
 export * from './chat';
+export * from './twitch';

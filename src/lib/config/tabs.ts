@@ -100,30 +100,35 @@ export const DEFAULT_TABS: TabConfig[] = [
         }
       ]
    },
-  {
-    id: 'entertainment',
-    label: 'Entertainment',
-    icon: '🎮',
-    description: 'Gaming streams, videos, and entertainment content',
-    layout: 'grid-3col',
-    widgets: [
-      {
-        component: 'KickWidget',
-        position: { column: 'left', order: 1 },
-        enabled: true
-      },
-      {
-        component: 'DramaRedditWidget',
-        position: { column: 'middle', order: 2 },
-        enabled: true
-      },
-      {
-        component: 'VideosWidget',
-        position: { column: 'right', order: 1 },
-        enabled: true
-      }
-    ]
-  }
+    {
+      id: 'entertainment',
+      label: 'Entertainment',
+      icon: '🎮',
+      description: 'Gaming streams, videos, and entertainment content',
+      layout: 'grid-3col',
+      widgets: [
+        {
+          component: 'KickWidget',
+          position: { column: 'left', order: 1 },
+          enabled: true
+        },
+        {
+          component: 'TwitchWidget',
+          position: { column: 'left', order: 2 },
+          enabled: true
+        },
+        {
+          component: 'DramaRedditWidget',
+          position: { column: 'middle', order: 2 },
+          enabled: true
+        },
+        {
+          component: 'VideosWidget',
+          position: { column: 'right', order: 1 },
+          enabled: true
+        }
+      ]
+    }
 ];
 
 // Helper function to get tab configuration by ID

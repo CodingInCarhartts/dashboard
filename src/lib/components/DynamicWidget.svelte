@@ -66,12 +66,16 @@
            // @ts-ignore
            module = await import('./features/economic/EconomicIndicatorsWidget.svelte');
            break;
-         case 'DramaRedditWidget':
-           // @ts-ignore
-           module = await import('./features/reddit/DramaRedditWidget.svelte');
-           break;
-         default:
-          throw new Error(`Unknown widget: ${config.component}`);
+          case 'DramaRedditWidget':
+            // @ts-ignore
+            module = await import('./features/reddit/DramaRedditWidget.svelte');
+            break;
+          case 'TwitchWidget':
+            // @ts-ignore
+            module = await import('./features/twitch/TwitchWidget.svelte');
+            break;
+          default:
+           throw new Error(`Unknown widget: ${config.component}`);
       }
 
       component = module.default;
