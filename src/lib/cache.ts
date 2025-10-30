@@ -1,5 +1,6 @@
 import { CACHE_CONFIG } from './config';
 import type { KickApiResponse } from './types';
+import LZString from 'lz-string';
 
 import { youtubeService } from './services/youtube';
 import { kickService } from './services/kick';
@@ -10,9 +11,12 @@ import { devtoService } from './services/devto';
 
 import type { CacheEntry, CacheType } from './types';
 
-// Simple in-memory cache with localStorage persistence for client-side
+// Enhanced in-memory cache with localStorage persistence for client-side
 class ClientCache {
   private isClient = typeof window !== 'undefined';
+  private readonly MAX_CACHE_SIZE = 4 * 1024 * 1024; // 4MB limit
+  private readonly COMPRESSION_THRESHOLD = 1024; // 1KB
+  private readonly MAX_ENTRY_SIZE = 100 * 1024; // 100KB
 
   private getStorageKey(key: string): string {
     return `dashboard_cache_${key}`;
@@ -25,8 +29,27 @@ class ClientCache {
       const stored = localStorage.getItem(this.getStorageKey(key));
       if (!stored) return null;
 
-      const entry: CacheEntry<T> = JSON.parse(stored);
-      return entry;
+      const entry: CacheEntry<string | T> = JSON.parse(stored);
+
+      // Update last accessed timestamp
+      entry.lastAccessed = Date.now();
+      localStorage.setItem(this.getStorageKey(key), JSON.stringify(entry));
+
+      // Decompress if needed
+      if (entry.compressed && typeof entry.data === 'string') {
+        try {
+          const decompressed = LZString.decompress(entry.data);
+          if (decompressed) {
+            entry.data = JSON.parse(decompressed);
+            entry.compressed = false;
+          }
+        } catch (error) {
+          console.error('Decompression failed for', key, error);
+          return null;
+        }
+      }
+
+      return entry as CacheEntry<T>;
     } catch (error) {
       console.error('Cache read error:', error);
       return null;
@@ -37,9 +60,38 @@ class ClientCache {
     if (!this.isClient) return;
 
     try {
-      const entry: CacheEntry<T> = {
-        data,
-        timestamp: Date.now()
+      // Calculate size
+      const jsonString = JSON.stringify(data);
+      const size = new Blob([jsonString]).size;
+
+      // Skip if too large
+      if (size > this.MAX_ENTRY_SIZE) {
+        console.warn(`Skipping cache for ${key}: response too large (${size} bytes)`);
+        return;
+      }
+
+      // Compress if beneficial
+      let finalData = jsonString;
+      let compressed = false;
+      if (size > this.COMPRESSION_THRESHOLD) {
+        try {
+          finalData = LZString.compress(jsonString);
+          compressed = true;
+        } catch (error) {
+          // Compression failed, use original
+          console.warn('Compression failed for', key, error);
+        }
+      }
+
+      // Check if we need to evict before storing
+      await this.enforceSizeLimit(size);
+
+      const entry: CacheEntry<string | T> = {
+        data: compressed ? finalData : data,
+        timestamp: Date.now(),
+        lastAccessed: Date.now(),
+        compressed,
+        size
       };
       localStorage.setItem(this.getStorageKey(key), JSON.stringify(entry));
     } catch (error) {
@@ -53,6 +105,30 @@ class ClientCache {
 
     const age = Date.now() - entry.timestamp;
     return age < ttl;
+  }
+
+  private async enforceSizeLimit(newEntrySize: number): Promise<void> {
+    if (!this.isClient) return;
+
+    const stats = await getCacheStats();
+    const currentSize = stats.totalSize;
+
+    if (currentSize + newEntrySize <= this.MAX_CACHE_SIZE) {
+      return; // No eviction needed
+    }
+
+    // Sort entries by last accessed (oldest first for LRU)
+    const entriesToEvict = stats.entries
+      .sort((a, b) => (a.age || 0) - (b.age || 0))
+      .slice(0, Math.min(5, stats.entries.length)); // Evict up to 5 oldest entries
+
+    for (const entry of entriesToEvict) {
+      localStorage.removeItem(`dashboard_cache_${entry.key}`);
+    }
+
+    if (entriesToEvict.length > 0) {
+      console.log(`Evicted ${entriesToEvict.length} cache entries to free space`);
+    }
   }
 
   async getOrFetch<T>(
@@ -212,7 +288,7 @@ export async function clearCacheByType(type: CacheType): Promise<void> {
 export async function getCacheStats(): Promise<{
   totalEntries: number;
   totalSize: number;
-  entries: Array<{ key: string; age: number; size: number }>;
+  entries: Array<{ key: string; age: number; size: number; compressed?: boolean }>;
 }> {
   if (typeof window === 'undefined') {
     return { totalEntries: 0, totalSize: 0, entries: [] };
@@ -221,20 +297,26 @@ export async function getCacheStats(): Promise<{
   const keys = Object.keys(localStorage);
   const prefix = `dashboard_cache_`;
   let totalSize = 0;
-  const entries: Array<{ key: string; age: number; size: number }> = [];
+  const entries: Array<{ key: string; age: number; size: number; compressed?: boolean }> = [];
 
   for (const key of keys) {
     if (key.startsWith(prefix)) {
       const cacheKey = key.replace(prefix, '');
       const stored = localStorage.getItem(key);
       if (stored) {
-        const size = new Blob([stored]).size;
-        totalSize += size;
+        const entrySize = new Blob([stored]).size;
+        totalSize += entrySize;
 
         try {
           const entry = JSON.parse(stored);
-          const age = Date.now() - entry.timestamp;
-          entries.push({ key: cacheKey, age, size });
+          const age = Date.now() - (entry.lastAccessed || entry.timestamp);
+          const dataSize = entry.size || 0;
+          entries.push({
+            key: cacheKey,
+            age,
+            size: dataSize,
+            compressed: entry.compressed
+          });
         } catch (e) {
           // Invalid JSON, skip
         }

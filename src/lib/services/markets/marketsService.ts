@@ -3,6 +3,7 @@ import { cache } from '../../cache';
 import { CACHE_CONFIG } from '../../config/cache';
 import { searchSymbols } from './marketsApi';
 import { FINNHUB_API_KEY } from '../../env';
+import type { HistoricalData } from '../../types';
 
 class MarketsServiceImpl implements MarketsService {
   async fetchMarkets(markets: Array<{symbol: string, name: string}>, forceRefresh = false): Promise<Market[]> {
@@ -74,6 +75,36 @@ class MarketsServiceImpl implements MarketsService {
         return await Promise.all(promises);
       },
       CACHE_CONFIG.markets.ttl // Use same TTL
+    );
+  }
+
+  async fetchHistoricalData(symbol: string, resolution: string, days: number, forceRefresh = false): Promise<HistoricalData[]> {
+    const to = Math.floor(Date.now() / 1000);
+    const from = to - days * 24 * 60 * 60; // Calculate 'from' timestamp based on number of days
+
+    const cacheKey = `historical_${symbol}_${resolution}_${days}${forceRefresh ? `_${Date.now()}` : ''}`;
+    return cache.getOrFetch(
+      cacheKey,
+      async () => {
+        try {
+          const response = await fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${symbol}&resolution=${resolution}&from=${from}&to=${to}&token=${FINNHUB_API_KEY}`);
+          const data = await response.json();
+
+          if (data.s === 'ok' && data.c && data.t) {
+            return data.c.map((close: number, index: number) => ({
+              date: new Date(data.t[index] * 1000).toISOString().split('T')[0], // Convert timestamp to YYYY-MM-DD
+              close: close
+            }));
+          } else {
+            console.error('Error fetching historical data:', data);
+            return [];
+          }
+        } catch (error) {
+          console.error('Error fetching historical data for', symbol, error);
+          return [];
+        }
+      },
+      forceRefresh ? 0 : CACHE_CONFIG.markets.ttl
     );
   }
 }

@@ -9,3 +9,9 @@ export interface Market {
 export interface Index extends Pick<Market, 'symbol' | 'name'> {}
 
 export interface MarketIndex extends Market {}
+
+export interface HistoricalData {
+  date: string;
+  close: number;
+}
+
