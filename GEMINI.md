@@ -1,121 +1,45 @@
-# Project: Glance Dashboard
+# Project: Dashboard
 
 ## Project Overview
-
-Glance Dashboard is a lightweight, highly customizable dashboard application built with SvelteKit. It is designed to display various information such as RSS feeds, weather, market data, YouTube videos, calendar events, and Hacker News stories in a streamlined and modern interface. The project emphasizes a modern design with a dark theme, responsiveness, and fast performance.
-
-## Technologies Used
-
-*   **Framework**: SvelteKit
-*   **Language**: TypeScript
-*   **Styling**: Tailwind CSS
-*   **UI Components**: shadcn/svelte
-*   **Build Tool**: Vite
+This project is a dashboard application built with SvelteKit, TypeScript, and Tailwind CSS. It integrates various widgets to display information from different services such as chat, Dev.to, economic indicators, GitHub, Hacker News, Kick, markets, Reddit, RSS feeds, videos, weather, and YouTube. The architecture suggests a modular approach where each service has its own API and service files, and corresponding Svelte components for display.
 
 ## Building and Running
+The project uses `npm` (or `pnpm` as indicated by `pnpm-lock.yaml` if it existed, but `package-lock.json` suggests `npm` or `yarn` is used) for package management and `Vite` for development and building. `Vitest` is used for testing.
 
-### Prerequisites
-
-*   Node.js 18+ and npm
-*   Git
-
-### Quick Start
-
-1.  **Clone the repository**
-
-    ```bash
-    git clone <repository-url>
-    cd dashboard
-    ```
-
-2.  **Install dependencies**
-
+-   **Install Dependencies:**
     ```bash
     npm install
     ```
-
-3.  **Start development server**
-
+-   **Development Server:**
     ```bash
     npm run dev
     ```
-
-    Visit `http://localhost:5173` in your browser.
-
-### Production Build
-
-1.  **Build the project**
-
+    (Starts a development server with hot-reloading)
+-   **Build for Production:**
     ```bash
     npm run build
     ```
-
-2.  **Preview the production build**
-
+    (Builds the application for production deployment)
+-   **Preview Production Build:**
     ```bash
     npm run preview
     ```
-
-### Type Checking and Linting
-
-*   **Run type checks and linting**
-
+    (Locally previews the production build)
+-   **Run Tests:**
     ```bash
-    npm run check
+    npm test
     ```
-
-*   **Run type checks and linting in watch mode**
-
+    (Executes unit and integration tests using Vitest)
+-   **Lint and Format:**
     ```bash
-    npm run check:watch
+    npm run lint
+    npm run format
     ```
+    (Checks code for linting errors and formats it using ESLint and Prettier)
 
 ## Development Conventions
-
-*   **Language**: TypeScript for type safety.
-*   **Styling**: Tailwind CSS for utility-first styling, with CSS variables for theming.
-*   **Component-Based**: Modular and reusable Svelte components.
-*   **Configuration**: Centralized configuration in `src/lib/config/` for widgets and settings.
-*   **Theming**: Dark theme by default, with easy customization via CSS variables in `src/app.css`.
-*   **Responsive Design**: Optimized for various screen sizes using a mobile-first approach.
-
-## Project Structure
-
-```
-src/
-├── lib/
-│   ├── components/     # Reusable Svelte components, including UI and widgets
-│   ├── config/         # Configuration files for various widgets and settings
-│   ├── services/       # Data fetching and business logic for widgets
-│   ├── stores/         # Svelte stores for state management
-│   ├── styles/         # Global styles, typography, and component-specific styles
-│   ├── types/          # TypeScript type definitions and interfaces
-│   └── utils/          # Utility functions
-├── routes/             # SvelteKit routing, including main layout and pages
-├── app.css             # Global styles and theme definitions
-├── app.d.ts            # Global TypeScript declarations
-└── app.html            # Main HTML template
-```
-
-## API Usage
-
-The dashboard integrates with various APIs:
-
-*   **RSS Feeds**: Direct XML parsing.
-*   **Weather**: Open-Meteo (no API key required).
-*   **Hacker News**: Official API.
-*   **Markets**: Currently uses mock data; can be integrated with real APIs like Alpha Vantage.
-*   **YouTube**: RSS feeds (no API key required).
-
-## Contributing
-
-Contributions are welcome. Key guidelines include:
-
-*   Following TypeScript best practices.
-*   Using CSS variables for theming.
-*   Keeping components modular and reusable.
-*   Testing on multiple screen sizes.
-
-## License
-
-This project is open source and available under the MIT License.
+-   **Language:** TypeScript is used throughout the project for type safety.
+-   **Styling:** Tailwind CSS is used for utility-first styling.
+-   **Linting & Formatting:** ESLint and Prettier are configured to maintain code quality and consistency.
+-   **Testing:** Vitest is the chosen test runner for unit and integration tests.
+-   **Framework:** SvelteKit is the primary framework for building the web application.
