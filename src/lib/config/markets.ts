@@ -19,8 +19,8 @@ export const MARKETS_CONFIG: { markets: Market[]; indices: Index[] } = {
     { symbol: '^IXIC', name: 'NASDAQ' },
     { symbol: '^RUT', name: 'Russell 2000' },
     { symbol: '^VIX', name: 'VIX Fear Index' },
-    { symbol: '^FTSE', name: 'FTSE 100' },
-    { symbol: '^GDAXI', name: 'DAX' },
-    { symbol: '^N225', name: 'Nikkei 225' }
+    { symbol: '^NYA', name: 'NYSE Composite' },
+    { symbol: '^SOX', name: 'Philadelphia Semiconductor' },
+    { symbol: '^MID', name: 'S&P MidCap 400' }
   ]
 };

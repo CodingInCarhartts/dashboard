@@ -15,3 +15,11 @@ export interface HistoricalData {
   close: number;
 }
 
+export interface OHLCData {
+  date: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+}
+

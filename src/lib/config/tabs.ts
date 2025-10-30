@@ -29,21 +29,16 @@ export const DEFAULT_TABS: TabConfig[] = [
          position: { column: 'middle', order: 2 },
          enabled: true
        },
-      {
-        component: 'WeatherWidget',
-        position: { column: 'right', order: 1 },
-        enabled: true
-      },
-      {
-        component: 'MarketsWidget',
-        position: { column: 'right', order: 2 },
-        enabled: true
-      },
-      {
-        component: 'CalendarWidget',
-        position: { column: 'right', order: 3 },
-        enabled: true
-      }
+       {
+         component: 'WeatherWidget',
+         position: { column: 'right', order: 1 },
+         enabled: true
+       },
+       {
+         component: 'CalendarWidget',
+         position: { column: 'right', order: 2 },
+         enabled: true
+       }
     ]
   },
   {
@@ -114,6 +109,11 @@ export const DEFAULT_TABS: TabConfig[] = [
       {
         component: 'KickWidget',
         position: { column: 'left', order: 1 },
+        enabled: true
+      },
+      {
+        component: 'StreamingRedditWidget',
+        position: { column: 'left', order: 2 },
         enabled: true
       },
       {

@@ -1,24 +1,25 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import type { HistoricalData } from '$lib/types';
-  import ApexCharts from 'apexcharts';
+  import type { OHLCData } from '$lib/types';
 
-  export let historicalData: HistoricalData[] = [];
+  export let ohlcData: OHLCData[] = [];
   export let symbol: string = '';
 
   let chartElement: HTMLElement;
-  let chart: ApexCharts;
+  let chart: any;
+  let ApexCharts: any;
 
-  $: if (historicalData.length > 0 && chartElement) {
+  $: if (ohlcData.length > 0 && chartElement && ApexCharts) {
+    console.log('Updating chart with OHLC data:', ohlcData);
     updateChart();
   }
 
-  function updateChart() {
+  async function updateChart() {
     if (chart) {
       chart.updateOptions(getOptions());
     } else {
       chart = new ApexCharts(chartElement, getOptions());
-      chart.render();
+      await chart.render();
     }
   }
 
@@ -26,14 +27,16 @@
     return {
       series: [
         {
-          name: `${symbol} Close Price`,
-          data: historicalData.map(d => d.close),
-          color: '#1A56DB',
+          name: `${symbol} OHLC`,
+          data: ohlcData.map(d => ({
+            x: d.date,
+            y: [d.open, d.high, d.low, d.close]
+          })),
         },
       ],
       chart: {
-        type: 'bar',
-        height: '100%',
+        type: 'candlestick',
+        height: 320,
         width: '100%',
         fontFamily: 'Inter, sans-serif',
         toolbar: {
@@ -41,50 +44,21 @@
         },
       },
       plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '70%',
-          borderRadiusApplication: 'end',
-          borderRadius: 8,
-        },
+        candlestick: {
+          colors: {
+            upward: '#1A56DB',
+            downward: '#F05252'
+          }
+        }
       },
       tooltip: {
-        shared: true,
-        intersect: false,
+        enabled: true,
         style: {
           fontFamily: 'Inter, sans-serif',
         },
       },
-      states: {
-        hover: {
-          filter: {
-            type: 'darken',
-            value: 1,
-          },
-        },
-      },
-      stroke: {
-        show: true,
-        width: 0,
-        colors: ['transparent'],
-      },
-      grid: {
-        show: false,
-        strokeDashArray: 4,
-        padding: {
-          left: 2,
-          right: 2,
-          top: -14,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      legend: {
-        show: false,
-      },
       xaxis: {
-        categories: historicalData.map(d => d.date),
+        type: 'category',
         labels: {
           show: true,
           style: {
@@ -102,14 +76,13 @@
       yaxis: {
         show: false,
       },
-      fill: {
-        opacity: 1,
-      },
     };
   }
 
-  onMount(() => {
-    if (historicalData.length > 0) {
+  onMount(async () => {
+    console.log('Chart element:', chartElement);
+    ApexCharts = (await import('apexcharts')).default;
+    if (ohlcData.length > 0) {
       updateChart();
     }
   });

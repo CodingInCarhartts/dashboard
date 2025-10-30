@@ -106,7 +106,7 @@
   }
 </script>
 
-<div class="widget">
+<div class="widget-chat">
   <div class="chat-header">
     <h3 class="chat-title">AI Chat</h3>
     <div class="chat-model-selector">

@@ -68,13 +68,3 @@
   </div>
 </div>
 
-<style>
-  /* Custom tab styling to match dashboard theme */
-  .dashboard button {
-    @apply text-muted-foreground hover:text-foreground;
-  }
-
-  .dashboard button.active {
-    @apply text-primary-foreground bg-primary shadow-sm;
-  }
-</style>

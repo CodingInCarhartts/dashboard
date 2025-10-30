@@ -23,3 +23,17 @@
 .reddit-list::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
 }
+
+.reddit-item .thumbnail {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  float: left;
+}
+
+.reddit-item a {
+  display: block;
+  overflow: hidden;
+}

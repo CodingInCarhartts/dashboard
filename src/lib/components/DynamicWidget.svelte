@@ -63,10 +63,14 @@
           module = await import('./features/markets/MarketIndicesWidget.svelte');
           break;
         case 'EconomicIndicatorsWidget':
-          // @ts-ignore
-          module = await import('./features/economic/EconomicIndicatorsWidget.svelte');
-          break;
-        default:
+           // @ts-ignore
+           module = await import('./features/economic/EconomicIndicatorsWidget.svelte');
+           break;
+         case 'StreamingRedditWidget':
+           // @ts-ignore
+           module = await import('./features/reddit/StreamingRedditWidget.svelte');
+           break;
+         default:
           throw new Error(`Unknown widget: ${config.component}`);
       }
 

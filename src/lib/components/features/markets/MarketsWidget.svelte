@@ -4,6 +4,7 @@
   import { marketsService } from '$lib/services/markets';
   import type { Market } from '$lib/types';
   import { MarketItem } from './';
+  import { refreshStore } from '$lib/stores/refresh';
   import './markets.css';
 
   let markets: Market[] = [];
@@ -23,6 +24,11 @@
     }
   }
   let searchTerm = '';
+
+  $: if ($refreshStore && ($refreshStore.type === 'markets' || $refreshStore.type === 'all')) {
+    refreshMarkets();
+    refreshStore.set(null);
+  }
 
   onMount(async () => {
     try {
@@ -64,7 +70,7 @@
   }
 </script>
 
-<div class="widget">
+<div class="widget-market">
   <div class="widget-header">
     <h3>Markets</h3>
     <button on:click={refreshMarkets} disabled={loading} class="refresh-btn"><img src="/refresh.png" alt="Refresh" class="refresh-icon" /></button>

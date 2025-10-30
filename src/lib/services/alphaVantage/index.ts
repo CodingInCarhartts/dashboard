@@ -1,0 +1,1 @@
+export { fetchDailyOHLC } from './alphaVantageService';

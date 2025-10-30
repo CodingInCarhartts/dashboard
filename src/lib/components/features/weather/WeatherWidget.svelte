@@ -153,7 +153,7 @@
          <div class="temp">{weather.temperature}<span class="temp-unit">°{WEATHER_CONFIG.units === 'imperial' ? 'F' : 'C'}</span></div>
        </div>
        <div class="condition">{weatherCodes[weather.weathercode] || 'Unknown'}</div>
-              <div class="weather-details-carousel" on:mouseenter={() => isPaused = true} on:mouseleave={() => isPaused = false}>
+              <div class="weather-details-carousel" role="region" on:mouseenter={() => isPaused = true} on:mouseleave={() => isPaused = false}>
                 <div class="weather-details" style="transform: translateX(-{currentSlide * 100}%)">
                   {#each getWeatherDetails(weather) as detail}
                     <WeatherCard {detail} />

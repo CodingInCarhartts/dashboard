@@ -1,23 +1,26 @@
 <script lang="ts">
-  import type { Market, HistoricalData } from '$lib/types';
+  import type { Market, OHLCData } from '$lib/types';
   import { marketsService } from '$lib/services/markets';
+  import { alphaVantage } from '$lib/services';
   import { Dialog } from 'bits-ui';
   import { ColumnChart } from './';
 
   export let market: Market;
 
   let showChart = false;
-  let historicalData: HistoricalData[] = [];
+  let ohlcData: OHLCData[] = [];
   let loadingChart = false;
 
   async function viewChart() {
+    console.log('View chart clicked for', market.symbol);
     loadingChart = true;
     showChart = true;
     try {
-      historicalData = await marketsService.fetchHistoricalData(market.symbol, 'D', 30);
+      ohlcData = await alphaVantage.fetchDailyOHLC(market.symbol);
+      console.log('Fetched OHLC data:', ohlcData);
     } catch (error) {
-      console.error('Error fetching historical data:', error);
-      historicalData = [];
+      console.error('Error fetching OHLC data:', error);
+      ohlcData = [];
     } finally {
       loadingChart = false;
     }
@@ -45,11 +48,15 @@
 
 <Dialog.Root bind:open={showChart}>
   <Dialog.Content>
-    <Dialog.Title>{market.symbol} Historical Data</Dialog.Title>
+    <Dialog.Title>{market.symbol} Daily OHLC Data</Dialog.Title>
+    <div class="min-h-[320px]">
     {#if loadingChart}
       <p>Loading chart...</p>
+    {:else if ohlcData.length === 0}
+      <p>No data available</p>
     {:else}
-      <ColumnChart {historicalData} symbol={market.symbol} />
+      <ColumnChart {ohlcData} symbol={market.symbol} />
     {/if}
+    </div>
   </Dialog.Content>
 </Dialog.Root>

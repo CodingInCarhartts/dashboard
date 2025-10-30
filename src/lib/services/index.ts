@@ -5,6 +5,7 @@ export * as kick from './kick';
 export * as reddit from './reddit';
 export * as github from './github';
 export * as markets from './markets';
+export * as alphaVantage from './alphaVantage';
 export * as economic from './economic';
 export * as devto from './devto';
 export * as chat from './chat';

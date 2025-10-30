@@ -3,6 +3,7 @@
   import { MARKETS_CONFIG } from '$lib/config';
   import { marketsService } from '$lib/services/markets';
   import type { MarketIndex, Market } from '$lib/types';
+  import { refreshStore } from '$lib/stores/refresh';
   import './market-indices.css';
 
   let indices: MarketIndex[] = [];
@@ -44,6 +45,11 @@
   }
 
   let searchTerm = '';
+
+  $: if ($refreshStore && ($refreshStore.type === 'markets' || $refreshStore.type === 'all')) {
+    refreshIndices();
+    refreshStore.set(null);
+  }
 
   onMount(async () => {
     try {
