@@ -1,3 +1,25 @@
+.widget-drama {
+  --widget-padding: 1rem;
+  --widget-gap: 0.75rem;
+  --widget-border-radius: var(--radius);
+  --widget-transition: all 0.2s ease-in-out;
+  
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--widget-border-radius);
+  padding: var(--widget-padding);
+  box-shadow: var(--shadow-sm);
+  color: var(--card-foreground);
+  transition: var(--widget-transition);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 450px;
+  overflow: hidden;
+}
+
+
 .reddit-list {
   flex: 1;
   overflow-y: auto;
@@ -36,4 +58,9 @@
 .reddit-item a {
   display: block;
   overflow: hidden;
+}
+
+.subreddit {
+  font-weight: bold;
+  color: var(--primary);
 }

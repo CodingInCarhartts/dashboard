@@ -1,4 +1,5 @@
 import type { WidgetConfig, TabConfig } from '../types';
+import { REDDIT_CONFIG } from './reddit';
 
 // Default tab configurations
 export const DEFAULT_TABS: TabConfig[] = [
@@ -104,7 +105,7 @@ export const DEFAULT_TABS: TabConfig[] = [
     label: 'Entertainment',
     icon: '🎮',
     description: 'Gaming streams, videos, and entertainment content',
-    layout: 'grid-2col',
+    layout: 'grid-3col',
     widgets: [
       {
         component: 'KickWidget',
@@ -112,8 +113,8 @@ export const DEFAULT_TABS: TabConfig[] = [
         enabled: true
       },
       {
-        component: 'StreamingRedditWidget',
-        position: { column: 'left', order: 2 },
+        component: 'DramaRedditWidget',
+        position: { column: 'middle', order: 2 },
         enabled: true
       },
       {
