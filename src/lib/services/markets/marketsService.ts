@@ -3,8 +3,8 @@ import { cache } from '../../cache';
 import { CACHE_CONFIG } from '../../config/cache';
 
 class MarketsServiceImpl implements MarketsService {
-  async fetchMarkets(markets: Array<{symbol: string, name: string}>): Promise<Market[]> {
-    const cacheKey = `markets_${markets.map(m => m.symbol).sort().join('_')}`;
+  async fetchMarkets(markets: Array<{symbol: string, name: string}>, forceRefresh = false): Promise<Market[]> {
+    const cacheKey = `markets_${markets.map(m => m.symbol).sort().join('_')}${forceRefresh ? `_${Date.now()}` : ''}`;
     return cache.getOrFetch(
       cacheKey,
       async () => {
@@ -32,7 +32,7 @@ class MarketsServiceImpl implements MarketsService {
 
         return await Promise.all(promises);
       },
-      CACHE_CONFIG.markets.ttl
+      forceRefresh ? 0 : CACHE_CONFIG.markets.ttl
     );
   }
 }

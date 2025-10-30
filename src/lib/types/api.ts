@@ -20,7 +20,7 @@ export interface DevtoService {
 }
 
 export interface MarketsService {
-  fetchMarkets(markets: Array<{symbol: string, name: string}>): Promise<Market[]>;
+  fetchMarkets(markets: Array<{symbol: string, name: string}>, forceRefresh?: boolean): Promise<Market[]>;
 }
 
 export interface EconomicService {

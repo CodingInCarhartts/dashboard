@@ -6,7 +6,7 @@ export const CACHE_CONFIG = {
   kick: { ttl: 2 * 60 * 1000 },        // 2 minutes for live streams
   reddit: { ttl: 60 * 60 * 1000 },     // 1 hour
   github: { ttl: 30 * 60 * 1000 },     // 30 minutes
-  markets: { ttl: 15 * 60 * 1000 },    // 15 minutes
+  markets: { ttl: 5 * 60 * 1000 },     // 5 minutes
   devto: { ttl: 30 * 60 * 1000 },      // 30 minutes
   economic: { ttl: 60 * 60 * 1000 }    // 1 hour for economic data
 };

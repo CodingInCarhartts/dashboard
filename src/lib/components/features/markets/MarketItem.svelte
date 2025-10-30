@@ -13,5 +13,10 @@
     <span class="change" class:positive={market.change && market.change > 0} class:negative={market.change && market.change < 0}>
       {market.change && market.change > 0 ? '+' : ''}{market.change?.toFixed(2) ?? 'N/A'} ({market.changePercent && market.changePercent > 0 ? '+' : ''}{market.changePercent?.toFixed(2) ?? 'N/A'}%)
     </span>
+    {#if market.changePercent}
+      <div class="change-bar" class:positive={market.changePercent > 0} class:negative={market.changePercent < 0}>
+        <div class="bar-fill" style="width: {Math.min(Math.abs(market.changePercent), 10) * 10}%"></div>
+      </div>
+    {/if}
   </div>
 </div>
