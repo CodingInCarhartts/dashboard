@@ -7,4 +7,5 @@ export interface GitHubRepo {
   updated_at: string;
   language: string | null;
   stargazers_count: number;
+  forks_count: number;
 }

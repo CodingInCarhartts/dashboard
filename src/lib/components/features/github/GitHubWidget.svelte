@@ -9,8 +9,6 @@
   let repos: GitHubRepo[] = [];
   let loading = true;
   let error = "";
-  let currentIndex = 0;
-  let listElement: HTMLUListElement | undefined;
 
   onMount(async () => {
     try {
@@ -25,58 +23,30 @@
       loading = false;
     }
   });
-
-  function scrollToIndex(index: number) {
-    if (!listElement || !repos.length) return;
-
-    currentIndex = Math.max(0, Math.min(index, repos.length - 1));
-    const item = listElement.children[currentIndex] as HTMLElement;
-    if (item) {
-      item.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }
-  }
-
-  function scrollNext() {
-    scrollToIndex(currentIndex + 1);
-  }
-
-  function scrollPrev() {
-    scrollToIndex(currentIndex - 1);
-  }
 </script>
 
 <div class="widget-hub">
-  
+  <h3>GitHub Repos</h3>
   {#if loading}
-    <p>Loading...</p>
-  {:else if error}
-    <p>{error}</p>
-  {:else}
-    <ul class="github-list" bind:this={listElement}>
-      {#each repos as repo, index}
-        <li class="github-item" class:active={index === currentIndex}>
-          <GitHubRepoItem {repo} />
-        </li>
+    <div class="github-grid">
+      {#each Array(6) as _}
+        <div class="github-item skeleton">
+          <div class="skeleton-title"></div>
+          <div class="skeleton-desc"></div>
+          <div class="skeleton-meta"></div>
+        </div>
       {/each}
-    </ul>
+    </div>
+  {:else if error}
+    <p class="error">{error}</p>
+  {:else if repos.length === 0}
+    <p class="empty">No repositories found</p>
+  {:else}
+    <div class="github-grid">
+      {#each repos as repo}
+        <GitHubRepoItem {repo} />
+      {/each}
+    </div>
   {/if}
-  <div class="github-header">
-    <!-- <h3 class="github-title">GitHub Repos</h3> -->
-    {#if !loading && !error && repos.length > 0}
-      <div class="github-controls">
-        <button
-          class="nav-button"
-          on:click={scrollPrev}
-          disabled={currentIndex === 0}>←</button
-        >
-        <span class="repo-counter">{currentIndex + 1} / {repos.length}</span>
-        <button
-          class="nav-button"
-          on:click={scrollNext}
-          disabled={currentIndex === repos.length - 1}>→</button
-        >
-      </div>
-    {/if}
-  </div>
 </div>
 

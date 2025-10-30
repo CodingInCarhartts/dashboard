@@ -1,5 +1,5 @@
 .dashboard {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   padding: 0;
   background: linear-gradient(135deg, var(--background) 0%, var(--muted) 100%);
