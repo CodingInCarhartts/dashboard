@@ -1,12 +1,13 @@
 import type { EconomicIndicator, EconomicService } from '../../types';
 import { ECONOMIC_CONFIG } from '../../config';
+import { ECONOMIC_API_KEY } from '../../env';
 
 class EconomicServiceImpl implements EconomicService {
   async fetchEconomicIndicators(): Promise<EconomicIndicator[]> {
     const promises = ECONOMIC_CONFIG.indicators.map(async (indicator) => {
       try {
         const response = await fetch(
-          `${ECONOMIC_CONFIG.baseUrl}?series_id=${indicator.series}&api_key=abcdefghijklmnopqrstuvwxyz123456&file_type=json&limit=2&sort_order=desc`
+          `${ECONOMIC_CONFIG.baseUrl}?series_id=${indicator.series}&api_key=${ECONOMIC_API_KEY}&file_type=json&limit=2&sort_order=desc`
         );
         if (!response.ok) {
           throw new Error(`Economic API error for ${indicator.series}: ${response.statusText}`);

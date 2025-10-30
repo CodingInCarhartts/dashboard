@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { MARKETS_CONFIG } from '$lib/config';
   import { marketsService } from '$lib/services/markets';
   import type { Market } from '$lib/types';
@@ -8,6 +8,9 @@
 
   let markets: Market[] = [];
   let loading = true;
+  let searchResults: Market[] = [];
+  let searchLoading = false;
+  let searchTimeout: number | undefined;
 
   async function refreshMarkets() {
     loading = true;
@@ -31,10 +34,34 @@
     }
   });
 
+  onDestroy(() => {
+    if (searchTimeout) clearTimeout(searchTimeout);
+  });
+
   $: filteredMarkets = markets.filter(market =>
     market.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
     market.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  $: displayedMarkets = filteredMarkets.length > 0 ? filteredMarkets : searchResults;
+
+  $: if (searchTerm && searchTerm.length > 2) {
+    if (searchTimeout) clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+      searchLoading = true;
+      try {
+        searchResults = await marketsService.searchSymbols(searchTerm);
+      } catch (error) {
+        console.error('Error searching symbols:', error);
+        searchResults = [];
+      } finally {
+        searchLoading = false;
+      }
+    }, 2000);
+  } else {
+    searchResults = [];
+    if (searchTimeout) clearTimeout(searchTimeout);
+  }
 </script>
 
 <div class="widget">
@@ -50,9 +77,11 @@
   />
   {#if loading}
     <p>Fetching market data...</p>
+  {:else if searchLoading}
+    <p>Searching for symbols...</p>
   {:else}
     <div class="markets-list">
-      {#each filteredMarkets as market}
+      {#each displayedMarkets as market}
         <MarketItem {market} />
       {/each}
     </div>

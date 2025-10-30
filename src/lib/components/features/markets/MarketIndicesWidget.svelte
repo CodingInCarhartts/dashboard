@@ -1,12 +1,15 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { MARKETS_CONFIG } from '$lib/config';
   import { marketsService } from '$lib/services/markets';
-  import type { MarketIndex } from '$lib/types';
+  import type { MarketIndex, Market } from '$lib/types';
   import './market-indices.css';
 
   let indices: MarketIndex[] = [];
   let loading = true;
+  let searchResults: Market[] = [];
+  let searchLoading = false;
+  let searchTimeout: number | undefined;
 
   async function refreshIndices() {
     loading = true;
@@ -18,6 +21,28 @@
       loading = false;
     }
   }
+
+  function handleSearch(event: Event) {
+    const target = event.target as HTMLInputElement;
+    searchTerm = target.value;
+    if (searchTimeout) clearTimeout(searchTimeout);
+    if (searchTerm.length > 2) {
+      searchTimeout = setTimeout(async () => {
+        searchLoading = true;
+        try {
+          searchResults = await marketsService.searchSymbols(searchTerm);
+        } catch (error) {
+          console.error('Error searching symbols:', error);
+          searchResults = [];
+        } finally {
+          searchLoading = false;
+        }
+      }, 2000);
+    } else {
+      searchResults = [];
+    }
+  }
+
   let searchTerm = '';
 
   onMount(async () => {
@@ -30,10 +55,34 @@
     }
   });
 
+  onDestroy(() => {
+    if (searchTimeout) clearTimeout(searchTimeout);
+  });
+
   $: filteredIndices = indices.filter(index =>
     index.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
     index.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  $: displayedIndices = filteredIndices.length > 0 ? filteredIndices : searchResults;
+
+  $: if (searchTerm && searchTerm.length > 2) {
+    if (searchTimeout) clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+      searchLoading = true;
+      try {
+        searchResults = await marketsService.searchSymbols(searchTerm);
+      } catch (error) {
+        console.error('Error searching symbols:', error);
+        searchResults = [];
+      } finally {
+        searchLoading = false;
+      }
+    }, 2000);
+  } else {
+    searchResults = [];
+    if (searchTimeout) clearTimeout(searchTimeout);
+  }
 </script>
 
 <div class="widget">
@@ -49,9 +98,11 @@
   />
   {#if loading}
     <p>Fetching market data...</p>
+  {:else if searchLoading}
+    <p>Searching for symbols...</p>
   {:else}
     <div class="indices-list">
-      {#each filteredIndices as index}
+      {#each displayedIndices as index}
         <div class="index-item">
           <div class="index-info">
             <a class="symbol" href="https://finance.yahoo.com/quote/{index.symbol}" target="_blank" rel="noopener">{index.symbol.replace('^', '')}</a>

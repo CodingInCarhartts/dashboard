@@ -21,6 +21,7 @@ export interface DevtoService {
 
 export interface MarketsService {
   fetchMarkets(markets: Array<{symbol: string, name: string}>, forceRefresh?: boolean): Promise<Market[]>;
+  searchSymbols(query: string): Promise<Market[]>;
 }
 
 export interface EconomicService {
