@@ -4,7 +4,7 @@
   import { chatStore } from '$lib/stores/chat';
   import type { Conversation } from '$lib/types';
 
-  let conversations: Conversation[] = [];
+  let conversations: (Conversation & { provider?: string; model?: string })[] = [];
   let loading = true;
   let error = '';
   let selectedConversationId: string | null = null;
@@ -18,14 +18,43 @@
       loading = true;
       error = '';
 
-      const { data, error: fetchError } = await supabase
+      // Get conversations
+      const { data: convs, error: convError } = await supabase
         .from('conversations')
         .select('*')
         .order('updated_at', { ascending: false });
 
-      if (fetchError) throw fetchError;
+      if (convError) throw convError;
 
-      conversations = data || [];
+      if (!convs || convs.length === 0) {
+        conversations = [];
+        return;
+      }
+
+      // Get first message for each conversation to extract provider/model
+      const conversationIds = convs.map((c: any) => c.id);
+      const { data: messages, error: msgError } = await supabase
+        .from('messages')
+        .select('conversation_id, provider, model')
+        .in('conversation_id', conversationIds)
+        .order('timestamp', { ascending: true });
+
+      if (msgError) throw msgError;
+
+      // Map first message per conversation
+      const firstMessages = new Map();
+      messages?.forEach((msg: any) => {
+        if (!firstMessages.has(msg.conversation_id)) {
+          firstMessages.set(msg.conversation_id, msg);
+        }
+      });
+
+      // Combine conversations with provider/model
+      conversations = convs.map((conv: any) => ({
+        ...conv,
+        provider: firstMessages.get(conv.id)?.provider || '',
+        model: firstMessages.get(conv.id)?.model || '',
+      }));
     } catch (e) {
       console.error('Error loading conversations:', e);
       error = 'Failed to load conversations';
@@ -73,6 +102,11 @@
         >
           <div class="conversation-info">
             <div class="font-medium">{conversation.title || 'Untitled Chat'}</div>
+            {#if conversation.provider && conversation.model}
+              <div class="text-sm text-gray-600 dark:text-gray-400">
+                {conversation.provider} - {conversation.model}
+              </div>
+            {/if}
             <div class="text-sm text-gray-500">
               {formatDate(conversation.created_at)}
             </div>
