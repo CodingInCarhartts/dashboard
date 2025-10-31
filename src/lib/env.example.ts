@@ -3,6 +3,7 @@ export const TWITCH_CLIENT_ID = '';
 export const TWITCH_CLIENT_SECRET = '';
 export const PERPLEXITY_API_KEY = '';
 export const GEMINI_API_KEY = '';
+export const MINIMAX_API_KEY = '';
 export const ECONOMIC_API_KEY = '';
 export const FINNHUB_API_KEY = '';
 export const YOUTUBE_API_KEY = '';

@@ -57,7 +57,7 @@
     await chatStore.clearChat();
   }
 
-  function switchProvider(provider: 'perplexity' | 'gemini'): void {
+  function switchProvider(provider: 'perplexity' | 'gemini' | 'minimax'): void {
     chatStore.setCurrentProvider(provider);
   }
 
@@ -90,13 +90,19 @@
       >
         <img src="/perplexity-book-dark.png" alt="Perplexity AI" />
       </button>
-      <button
-        class="provider-button {$chatStore.currentProvider === 'gemini' ? 'active' : ''}"
-        on:click={() => switchProvider('gemini')}
-      >
-        <img src="/google-gemini.png" alt="Google Gemini" />
-      </button>
-      {#if $chatStore.messages.length > 0}
+       <button
+         class="provider-button {$chatStore.currentProvider === 'gemini' ? 'active' : ''}"
+         on:click={() => switchProvider('gemini')}
+       >
+         <img src="/google-gemini.png" alt="Google Gemini" />
+       </button>
+       <button
+         class="provider-button {$chatStore.currentProvider === 'minimax' ? 'active' : ''}"
+         on:click={() => switchProvider('minimax')}
+       >
+         <img src="/minimax-color.png" alt="MiniMax" />
+       </button>
+       {#if $chatStore.messages.length > 0}
         <button class="clear-chat" on:click={clearChat}>
           Clear Chat
         </button>

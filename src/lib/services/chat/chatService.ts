@@ -1,6 +1,6 @@
 import type { Provider, ChatModel, Message, ChatService } from '../../types';
 import { CHAT_CONFIG } from '../../config';
-import { getPerplexityModels, getGeminiModels } from './providers';
+import { getPerplexityModels, getGeminiModels, getMinimaxModels } from './providers';
 import { cache } from '../../cache';
 
 class ChatServiceImpl implements ChatService {
@@ -10,6 +10,8 @@ class ChatServiceImpl implements ChatService {
         return getPerplexityModels();
       case 'gemini':
         return getGeminiModels();
+      case 'minimax':
+        return getMinimaxModels();
       default:
         return [];
     }
@@ -124,14 +126,41 @@ class ChatServiceImpl implements ChatService {
         throw new Error(`Gemini API error: ${response.status}`);
       }
 
-      const data = await response.json();
-      return {
-        response: data.candidates[0].content.parts[0].text,
-        usage: data.usageMetadata
-      };
-    }
+       const data = await response.json();
+       return {
+         response: data.candidates[0].content.parts[0].text,
+         usage: data.usageMetadata
+       };
+     } else if (provider === 'minimax') {
+       const response = await fetch(`${config.baseUrl}/chat/completions`, {
+         method: 'POST',
+         headers: {
+           'Authorization': `Bearer ${config.apiKey}`,
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+           model: options.model || config.model,
+           messages: messages.map(msg => ({
+             role: msg.role,
+             content: msg.content
+           })),
+           max_tokens: options.maxTokens || CHAT_CONFIG.maxTokens,
+           temperature: options.temperature || CHAT_CONFIG.temperature
+         })
+       });
 
-    throw new Error(`Unsupported provider: ${provider}`);
+       if (!response.ok) {
+         throw new Error(`MiniMax API error: ${response.status}`);
+       }
+
+       const data = await response.json();
+       return {
+         response: data.choices[0].message.content,
+         usage: data.usage
+       };
+     }
+
+     throw new Error(`Unsupported provider: ${provider}`);
   }
 }
 

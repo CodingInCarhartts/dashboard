@@ -5,7 +5,7 @@ export interface ChatProvider {
   apiKey: string;
 }
 
-export type Provider = 'perplexity' | 'gemini';
+export type Provider = 'perplexity' | 'gemini' | 'minimax';
 
 export interface Message {
   id: string;
