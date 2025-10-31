@@ -1,25 +1,12 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { CHAT_CONFIG } from '$lib/config';
-  import type { Message, Provider, StoredMessage } from '$lib/types';
   import { chatService } from '$lib/services/chat';
   import { chatStore } from '$lib/stores/chat';
   import MessageBubble from './MessageBubble.svelte';
   import '$lib/styles/components/features/chat.css';
 
-  let messages: Message[] = [];
-  let currentProvider: Provider = CHAT_CONFIG.defaultProvider as Provider;
-  let currentModel = CHAT_CONFIG.providers[currentProvider].model;
   let inputMessage = '';
-  let isLoading = false;
   let error = '';
-
-  // Subscribe to store errors
-  chatStore.subscribe((state) => {
-    if (state.error) {
-      error = state.error;
-    }
-  });
 
   function generateId(): string {
     return Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -35,41 +22,47 @@
       model
     };
 
-    messages = [...messages, message];
-
-    // Limit message history
-    if (messages.length > CHAT_CONFIG.maxHistoryLength) {
-      messages = messages.slice(-CHAT_CONFIG.maxHistoryLength);
-    }
-
-    // Save to store (and DB)
+    // Add to store (handles DB saving and state updates)
     await chatStore.addMessage(message);
   }
 
   async function sendMessage(): Promise<void> {
-    if (!inputMessage.trim() || isLoading) return;
+    if (!inputMessage.trim() || $chatStore.isLoading) return;
 
     const userMessage = inputMessage.trim();
     inputMessage = '';
     error = '';
 
     await addMessage('user', userMessage);
-    isLoading = true;
+    chatStore.setLoading(true);
 
     try {
-      const chatMessages = messages.map(msg => ({
+      const chatMessages = $chatStore.messages.map(msg => ({
         role: msg.role,
         content: msg.content
       }));
 
-      const response = await chatService.getChatResponse(currentProvider, chatMessages, { model: currentModel });
-      await addMessage('assistant', response.response, currentProvider, currentModel);
+      const response = await chatService.getChatResponse($chatStore.currentProvider, chatMessages, { model: $chatStore.currentModel });
+      await addMessage('assistant', response.response, $chatStore.currentProvider, $chatStore.currentModel);
     } catch (err) {
       console.error('Chat error:', err);
       error = err instanceof Error ? err.message : 'Failed to get response';
     } finally {
-      isLoading = false;
+      chatStore.setLoading(false);
     }
+  }
+
+  async function clearChat(): Promise<void> {
+    error = '';
+    await chatStore.clearChat();
+  }
+
+  function switchProvider(provider: 'perplexity' | 'gemini'): void {
+    chatStore.setCurrentProvider(provider);
+  }
+
+  function switchModel(model: string): void {
+    chatStore.setCurrentModel(model);
   }
 
   function handleKeyPress(event: KeyboardEvent): void {
@@ -78,72 +71,32 @@
       sendMessage();
     }
   }
-
-  async function clearChat(): Promise<void> {
-    messages = [];
-    error = '';
-    await chatStore.clearChat();
-  }
-
-  function switchProvider(provider: Provider): void {
-    currentProvider = provider;
-    currentModel = CHAT_CONFIG.providers[provider].model;
-  }
-
-  onMount(() => {
-    // Load chat history from localStorage if available
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('dashboard_chat_history');
-        if (saved) {
-          const parsed: StoredMessage[] = JSON.parse(saved);
-          messages = parsed.map((msg) => ({
-            ...msg,
-            timestamp: new Date(msg.timestamp),
-            provider: msg.provider || undefined,
-            model: msg.model || undefined
-          }));
-        }
-      } catch (err) {
-        console.error('Error loading chat history:', err);
-      }
-    }
-  });
-
-  // Save chat history to localStorage
-  $: if (typeof window !== 'undefined' && messages.length > 0) {
-    try {
-      localStorage.setItem('dashboard_chat_history', JSON.stringify(messages));
-    } catch (err) {
-      console.error('Error saving chat history:', err);
-    }
-  }
 </script>
 
 <div class="widget-chat">
   <div class="chat-header">
     <h3 class="chat-title">AI Chat</h3>
     <div class="chat-model-selector">
-      <select bind:value={currentModel} class="model-dropdown">
-        {#each chatService.getAvailableModels(currentProvider) as model}
+      <select bind:value={$chatStore.currentModel} class="model-dropdown">
+        {#each chatService.getAvailableModels($chatStore.currentProvider) as model}
           <option value={model.id}>{model.name}</option>
         {/each}
       </select>
     </div>
     <div class="chat-header-actions">
       <button
-        class="provider-button {currentProvider === 'perplexity' ? 'active' : ''}"
+        class="provider-button {$chatStore.currentProvider === 'perplexity' ? 'active' : ''}"
         on:click={() => switchProvider('perplexity')}
       >
         <img src="/perplexity-book-dark.png" alt="Perplexity AI" />
       </button>
       <button
-        class="provider-button {currentProvider === 'gemini' ? 'active' : ''}"
+        class="provider-button {$chatStore.currentProvider === 'gemini' ? 'active' : ''}"
         on:click={() => switchProvider('gemini')}
       >
         <img src="/google-gemini.png" alt="Google Gemini" />
       </button>
-      {#if messages.length > 0}
+      {#if $chatStore.messages.length > 0}
         <button class="clear-chat" on:click={clearChat}>
           Clear Chat
         </button>
@@ -154,18 +107,18 @@
   <div class="chat-container">
 
     <div class="chat-messages">
-      {#if messages.length === 0}
+      {#if $chatStore.messages.length === 0}
         <div class="chat-empty">
           <div class="chat-empty-icon">💬</div>
-          <p>Start a conversation with {CHAT_CONFIG.providers[currentProvider].name}</p>
+          <p>Start a conversation with {CHAT_CONFIG.providers[$chatStore.currentProvider].name}</p>
         </div>
       {:else}
-         {#each messages as message (message.id)}
+         {#each $chatStore.messages as message (message.id)}
            <MessageBubble {message} />
          {/each}
       {/if}
 
-      {#if isLoading}
+      {#if $chatStore.isLoading}
         <div class="chat-loading">
           <div class="loading-dots">
             <span></span>
@@ -190,15 +143,15 @@
           placeholder="Ask me anything..."
           bind:value={inputMessage}
           on:keypress={handleKeyPress}
-          disabled={isLoading}
+          disabled={$chatStore.isLoading}
           rows="1"
         ></textarea>
         <button
           class="send-button"
           on:click={sendMessage}
-          disabled={!inputMessage.trim() || isLoading}
+          disabled={!inputMessage.trim() || $chatStore.isLoading}
         >
-          {#if isLoading}
+          {#if $chatStore.isLoading}
             <div class="loading-dots">
               <span></span>
               <span></span>

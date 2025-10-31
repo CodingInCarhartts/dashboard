@@ -7,6 +7,7 @@
   let conversations: Conversation[] = [];
   let loading = true;
   let error = '';
+  let selectedConversationId: string | null = null;
 
   onMount(async () => {
     await loadConversations();
@@ -33,8 +34,21 @@
     }
   }
 
-  async function loadConversation(conversationId: string) {
-    await chatStore.loadConversation(conversationId);
+  async function toggleConversation(conversationId: string) {
+    if (selectedConversationId === conversationId) {
+      // Deselect: clear chat
+      selectedConversationId = null;
+      await chatStore.clearChat();
+    } else {
+      // Select: load conversation
+      selectedConversationId = conversationId;
+      await chatStore.loadConversation(conversationId);
+    }
+  }
+
+  async function startNewChat() {
+    selectedConversationId = null;
+    await chatStore.clearChat();
   }
 
   function formatDate(dateString: string): string {
@@ -54,25 +68,101 @@
   {:else}
     <div class="space-y-2 max-h-96 overflow-y-auto">
       {#each conversations as conversation (conversation.id)}
-        <button
-          class="w-full text-left p-3 border rounded hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          on:click={() => loadConversation(conversation.id)}
+        <label
+          class="conversation-toggle flex items-center justify-between p-3 border rounded hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
         >
-          <div class="font-medium">{conversation.title || 'Untitled Chat'}</div>
-          <div class="text-sm text-gray-500">
-            {formatDate(conversation.created_at)}
+          <div class="conversation-info">
+            <div class="font-medium">{conversation.title || 'Untitled Chat'}</div>
+            <div class="text-sm text-gray-500">
+              {formatDate(conversation.created_at)}
+            </div>
           </div>
-        </button>
+          <div class="toggle-container">
+            <input
+              type="checkbox"
+              class="toggle-input"
+              checked={selectedConversationId === conversation.id}
+              on:change={() => toggleConversation(conversation.id)}
+            />
+            <span class="toggle-slider"></span>
+          </div>
+        </label>
       {/each}
     </div>
   {/if}
 
-  <button
-    class="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-    on:click={loadConversations}
-    disabled={loading}
-  >
-    Refresh
-  </button>
+  <div class="mt-4 space-y-2">
+    <button
+      class="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+      on:click={startNewChat}
+    >
+      New Chat
+    </button>
+    <button
+      class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+      on:click={loadConversations}
+      disabled={loading}
+    >
+      Refresh
+    </button>
+  </div>
 </div>
+
+<style>
+  .conversation-viewer {
+    @apply p-4 bg-white dark:bg-gray-900 rounded-lg shadow;
+  }
+
+  .conversation-toggle {
+    transition: background-color 0.2s ease;
+  }
+
+  .toggle-container {
+    position: relative;
+    width: 44px;
+    height: 24px;
+  }
+
+  .toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+  }
+
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+
+  .toggle-input:checked + .toggle-slider {
+    background-color: #2196F3;
+  }
+
+  .toggle-input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+  }
+
+  .toggle-input:focus + .toggle-slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+</style>
 

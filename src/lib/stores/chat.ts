@@ -21,17 +21,11 @@ function createChatStore() {
   let currentConversationId: string | null = null;
 
   if (browser) {
-    // Load current conversation ID
+    // Load current conversation ID (for potential future use)
     currentConversationId = localStorage.getItem(CONVERSATION_ID_KEY);
 
-    // If no conversation, create new one
-    if (!currentConversationId) {
-      currentConversationId = crypto.randomUUID();
-      localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
-    }
-
-    // Load messages from DB if conversation exists
-    loadConversation(currentConversationId);
+    // Start with empty chat on refresh - no auto-loading
+    // Users can load conversations manually from ConversationViewer
   }
 
   async function loadConversation(conversationId: string) {
@@ -72,10 +66,37 @@ function createChatStore() {
     }
   }
 
+  async function ensureConversationExists(): Promise<void> {
+    if (!currentConversationId) return;
+
+    // Check if conversation exists
+    const { data, error } = await supabase
+      .from('conversations')
+      .select('id')
+      .eq('id', currentConversationId)
+      .single();
+
+    if (error && error.code !== 'PGRST116') { // PGRST116 is "not found"
+      throw error;
+    }
+
+    if (!data) {
+      // Create conversation
+      const { error: insertError } = await supabase
+        .from('conversations')
+        .insert({ id: currentConversationId, title: 'New Chat' });
+
+      if (insertError) throw insertError;
+    }
+  }
+
   async function saveMessage(message: Message): Promise<string | null> {
     if (!currentConversationId) return null;
 
     try {
+      // Ensure conversation exists before saving message
+      await ensureConversationExists();
+
       const { error } = await supabase
         .from('messages')
         .insert({
@@ -121,34 +142,12 @@ function createChatStore() {
         }
       }
     },
-    clearChat: async () => {
-      // Create new conversation ID
+    clearChat: () => {
+      // Create new conversation ID locally (don't insert to DB yet)
       const newId = crypto.randomUUID();
-
-      try {
-        // Insert into DB first
-        const { error } = await supabase
-          .from('conversations')
-          .insert({ id: newId, title: 'New Chat' });
-
-        if (error) throw error;
-
-        // Only set if DB insert succeeded
-        currentConversationId = newId;
-        localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
-        set({ ...defaultState, currentProvider: defaultState.currentProvider, currentModel: defaultState.currentModel });
-      } catch (e) {
-        console.error('Error creating conversation in DB:', e);
-        // Fallback: still set locally but mark as failed
-        currentConversationId = newId;
-        localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
-        set({
-          ...defaultState,
-          currentProvider: defaultState.currentProvider,
-          currentModel: defaultState.currentModel,
-          error: 'Failed to create conversation in database'
-        });
-      }
+      currentConversationId = newId;
+      localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
+      set({ ...defaultState, currentProvider: defaultState.currentProvider, currentModel: defaultState.currentModel });
     },
     setLoading: (loading: boolean) => update((state) => ({ ...state, isLoading: loading })),
     setError: (error: string) => update((state) => ({ ...state, error })),
