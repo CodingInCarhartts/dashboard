@@ -6,10 +6,10 @@
   --widget-transition: all 0.2s ease-in-out;
   
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--widget-border-radius);
+  border: 4px solid black;
+  border-radius: 0;
   padding: var(--widget-padding);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 8px 8px 0px black;
   color: var(--card-foreground);
   transition: var(--widget-transition);
   flex: 1;
@@ -73,13 +73,13 @@
 
 /* Widget states */
 .widget:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+  box-shadow: 12px 12px 0px black;
+  transform: translateY(-4px);
 }
 
 .widget:active {
   transform: translateY(0);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 8px 8px 0px black;
 }
 
 /* Widget sizes */

@@ -3,47 +3,27 @@ import { REDDIT_CONFIG } from './reddit';
 
 // Default tab configurations
 export const DEFAULT_TABS: TabConfig[] = [
-  {
-    id: 'home',
-    label: 'Home',
-    icon: '🏠',
-    description: 'Main dashboard with all essential widgets',
-    layout: 'grid-3col',
-     widgets: [
-       {
-         component: 'RedditWidget',
-         position: { column: 'left', order: 1 },
-         enabled: true
-       },
-       {
-         component: 'KickWidget',
-         position: { column: 'left', order: 2 },
-         enabled: true
-       },
-      {
-        component: 'HackerNewsWidget',
-        position: { column: 'middle', order: 1 },
-        enabled: true
-      },
-       {
-         component: 'VideosWidget',
-         position: { column: 'middle', order: 2 },
-         enabled: true
-       },
-       {
-         component: 'WeatherWidget',
-         position: { column: 'right', order: 1 },
-         enabled: true
-       },
-       {
-         component: 'CalendarWidget',
-         position: { column: 'right', order: 2 },
-         enabled: true
-       }
-    ]
-  },
-  {
-    id: 'development',
+   {
+     id: 'home',
+     label: 'Home',
+     icon: '🏠',
+     description: 'GitHub repositories and weather',
+     layout: 'grid-2col',
+      widgets: [
+         {
+           component: 'GitHubWidget',
+           position: { column: 'left', order: 1 },
+           enabled: true
+         },
+         {
+           component: 'WeatherWidget',
+           position: { column: 'right', order: 1 },
+           enabled: true
+         }
+     ]
+    },
+    {
+     id: 'development',
     label: 'Development',
     icon: '💻',
     description: 'Tech news, development tools, and coding resources',
@@ -54,11 +34,7 @@ export const DEFAULT_TABS: TabConfig[] = [
            position: { column: 'left', order: 4 },
            enabled: true
          },
-         {
-           component: 'GitHubWidget',
-           position: { column: 'middle', order: 3, span: 3 },
-           enabled: true
-         },
+
           {
             component: 'RssWidget',
             position: { column: 'right', order: 4 },
@@ -101,7 +77,7 @@ export const DEFAULT_TABS: TabConfig[] = [
       label: 'Entertainment',
       icon: '🎮',
       description: 'Gaming streams, videos, and entertainment content',
-      layout: 'grid-3col',
+     layout: 'grid-2col',
       widgets: [
         {
           component: 'KickWidget',
@@ -131,17 +107,17 @@ export const DEFAULT_TABS: TabConfig[] = [
        icon: '🤖',
        description: 'AI-powered chat with conversation history',
        layout: 'grid-2col',
-       widgets: [
-         {
-           component: 'ConversationViewer',
-           position: { column: 'left', order: 1 },
-           enabled: true
-         },
-         {
-           component: 'ChatWidget',
-           position: { column: 'right', order: 1 },
-           enabled: true
-         }
+        widgets: [
+          {
+            component: 'ChatWidget',
+            position: { column: 'left', order: 1 },
+            enabled: true
+          },
+          {
+            component: 'ConversationViewer',
+            position: { column: 'right', order: 1 },
+            enabled: true
+          }
        ]
      }
  ];

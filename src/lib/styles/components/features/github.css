@@ -13,11 +13,20 @@
   max-height: 225px;
 }
 
+.widget-hub h3 {
+  margin: 0 0 0.5rem 0;
+}
+
 .github-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 0.75rem;
   padding: 0.5rem 0;
+  /* Make grid fill available space and scroll if content exceeds */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .github-item {
