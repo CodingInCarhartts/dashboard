@@ -31,12 +31,13 @@
         return;
       }
 
-      // Get first message for each conversation to extract provider/model
+      // Get first assistant message for each conversation to extract provider/model
       const conversationIds = convs.map((c: any) => c.id);
       const { data: messages, error: msgError } = await supabase
         .from('messages')
         .select('conversation_id, provider, model')
         .in('conversation_id', conversationIds)
+        .eq('role', 'assistant')
         .order('timestamp', { ascending: true });
 
       if (msgError) throw msgError;
