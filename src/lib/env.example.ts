@@ -6,3 +6,6 @@ export const GEMINI_API_KEY = '';
 export const ECONOMIC_API_KEY = '';
 export const FINNHUB_API_KEY = '';
 export const YOUTUBE_API_KEY = '';
+export const SUPABASE_URL = '';
+export const SUPABASE_API_KEY = '';
+export const SUPABASE_DATABASE_PASSWORD = '';
