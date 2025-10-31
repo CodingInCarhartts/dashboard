@@ -2,12 +2,15 @@ import type { RedditPost, RedditService } from '../../types';
 
 class RedditServiceImpl implements RedditService {
   async fetchRedditPosts(subreddit: string): Promise<RedditPost[]> {
-    const response = await fetch(`https://www.reddit.com/r/${subreddit}/hot.json?limit=10`);
+    const response = await fetch(`/api/reddit/${subreddit}`);
     if (!response.ok) {
       throw new Error(`Reddit API error: ${response.statusText}`);
     }
     const data = await response.json();
-    return data.data.children.map((child: any) => child.data);
+    if (data.error) {
+      throw new Error(data.error);
+    }
+    return data;
   }
 }
 
