@@ -46,6 +46,10 @@
           // @ts-ignore
           module = await import('./features/chat/ChatWidget.svelte');
           break;
+        case 'ConversationViewer':
+          // @ts-ignore
+          module = await import('./features/chat/ConversationViewer.svelte');
+          break;
         case 'GitHubWidget':
           // @ts-ignore
           module = await import('./features/github/GitHubWidget.svelte');

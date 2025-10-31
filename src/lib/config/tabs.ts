@@ -64,11 +64,7 @@ export const DEFAULT_TABS: TabConfig[] = [
             position: { column: 'right', order: 4 },
             enabled: true
           },
-         {
-           component: 'ChatWidget',
-           position: { column: 'left', order: 2, span: 3 },
-           enabled: true
-         },
+
            {
              component: 'DevtoWidget',
              position: { column: 'middle', order: 4 },
@@ -127,9 +123,28 @@ export const DEFAULT_TABS: TabConfig[] = [
           position: { column: 'right', order: 1 },
           enabled: true
         }
-      ]
-    }
-];
+       ]
+     },
+     {
+       id: 'ai-chat',
+       label: 'AI Chat',
+       icon: '🤖',
+       description: 'AI-powered chat with conversation history',
+       layout: 'grid-2col',
+       widgets: [
+         {
+           component: 'ConversationViewer',
+           position: { column: 'left', order: 1 },
+           enabled: true
+         },
+         {
+           component: 'ChatWidget',
+           position: { column: 'right', order: 1 },
+           enabled: true
+         }
+       ]
+     }
+ ];
 
 // Helper function to get tab configuration by ID
 export function getTabConfig(tabId: string): TabConfig | undefined {

@@ -133,6 +133,30 @@ function createChatStore() {
       currentModel: CHAT_CONFIG.providers[provider].model,
     })),
     setCurrentModel: (model: string) => update((state) => ({ ...state, currentModel: model })),
+    loadConversation: async (conversationId: string) => {
+      try {
+        const { data: messages, error } = await supabase
+          .from('messages')
+          .select('*')
+          .eq('conversation_id', conversationId)
+          .order('timestamp', { ascending: true });
+
+        if (error) throw error;
+
+        if (messages) {
+          const formattedMessages = messages.map((msg: any) => ({
+            ...msg,
+            timestamp: new Date(msg.timestamp),
+          }));
+          update(state => ({ ...state, messages: formattedMessages, error: '' }));
+          currentConversationId = conversationId;
+          localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
+        }
+      } catch (e) {
+        console.error('Error loading conversation:', e);
+        update(state => ({ ...state, error: 'Failed to load conversation' }));
+      }
+    },
   };
 }
 

@@ -30,6 +30,13 @@ export interface ChatModel {
   name: string;
 }
 
+export interface Conversation {
+  id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface ChatState {
   messages: Message[];
   currentProvider: Provider;
