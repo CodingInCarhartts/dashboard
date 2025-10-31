@@ -17,7 +17,7 @@ class ClientCache {
   private isClient = typeof window !== 'undefined';
   private readonly MAX_CACHE_SIZE = 4 * 1024 * 1024; // 4MB limit
   private readonly COMPRESSION_THRESHOLD = 1024; // 1KB
-  private readonly MAX_ENTRY_SIZE = 100 * 1024; // 100KB
+  private readonly MAX_ENTRY_SIZE = 500 * 1024; // 500KB
 
   private getStorageKey(key: string): string {
     return `dashboard_cache_${key}`;

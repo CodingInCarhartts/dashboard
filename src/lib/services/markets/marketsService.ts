@@ -4,19 +4,32 @@ import { CACHE_CONFIG } from '../../config/cache';
 import { searchSymbols } from './marketsApi';
 import { FINNHUB_API_KEY } from '../../env';
 import type { HistoricalData } from '../../types';
+import pLimit from 'p-limit';
 
 class MarketsServiceImpl implements MarketsService {
+  private limit = pLimit(5); // Limit to 5 concurrent requests
+
   async fetchMarkets(markets: Array<{symbol: string, name: string}>, forceRefresh = false): Promise<Market[]> {
     const cacheKey = `markets_${markets.map(m => m.symbol).sort().join('_')}${forceRefresh ? `_${Date.now()}` : ''}`;
     return cache.getOrFetch(
       cacheKey,
       async () => {
-        const promises = markets.map(async (market) => {
+        const promises = markets.map(market => this.limit(async () => {
           try {
             const response = await fetch(`https://finnhub.io/api/v1/quote?symbol=${market.symbol}&token=${FINNHUB_API_KEY}`);
-            const data = await response.json();
-            if (data.c && data.d !== undefined && data.dp !== undefined) {
-              return { ...market, price: data.c, change: data.d, changePercent: data.dp };
+            if (response.status === 429) {
+              // Rate limited, wait and retry once
+              await new Promise(resolve => setTimeout(resolve, 60000)); // Wait 1 minute
+              const retryResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=${market.symbol}&token=${FINNHUB_API_KEY}`);
+              const data = await retryResponse.json();
+              if (data.c && data.d !== undefined && data.dp !== undefined) {
+                return { ...market, price: data.c, change: data.d, changePercent: data.dp };
+              }
+            } else {
+              const data = await response.json();
+              if (data.c && data.d !== undefined && data.dp !== undefined) {
+                return { ...market, price: data.c, change: data.d, changePercent: data.dp };
+              }
             }
           } catch (error) {
             console.error('Error fetching quote for', market.symbol, error);
@@ -29,7 +42,7 @@ class MarketsServiceImpl implements MarketsService {
             change: (Math.random() - 0.5) * 100,
             changePercent: (Math.random() - 0.5) * 10
           };
-        });
+        }));
 
         return await Promise.all(promises);
       },
@@ -45,18 +58,34 @@ class MarketsServiceImpl implements MarketsService {
         const results = await searchSymbols(query);
         const topResults = results.slice(0, 5); // Limit to 5 results
 
-        const promises = topResults.map(async (result) => {
+        const promises = topResults.map(result => this.limit(async () => {
           try {
             const response = await fetch(`https://finnhub.io/api/v1/quote?symbol=${result.symbol}&token=${FINNHUB_API_KEY}`);
-            const data = await response.json();
-            if (data.c && data.d !== undefined && data.dp !== undefined) {
-              return {
-                symbol: result.displaySymbol,
-                name: result.description,
-                price: data.c,
-                change: data.d,
-                changePercent: data.dp
-              };
+            if (response.status === 429) {
+              // Rate limited, wait and retry once
+              await new Promise(resolve => setTimeout(resolve, 60000));
+              const retryResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=${result.symbol}&token=${FINNHUB_API_KEY}`);
+              const data = await retryResponse.json();
+              if (data.c && data.d !== undefined && data.dp !== undefined) {
+                return {
+                  symbol: result.displaySymbol,
+                  name: result.description,
+                  price: data.c,
+                  change: data.d,
+                  changePercent: data.dp
+                };
+              }
+            } else {
+              const data = await response.json();
+              if (data.c && data.d !== undefined && data.dp !== undefined) {
+                return {
+                  symbol: result.displaySymbol,
+                  name: result.description,
+                  price: data.c,
+                  change: data.d,
+                  changePercent: data.dp
+                };
+              }
             }
           } catch (error) {
             console.error('Error fetching quote for', result.symbol, error);
@@ -70,7 +99,7 @@ class MarketsServiceImpl implements MarketsService {
             change: (Math.random() - 0.5) * 100,
             changePercent: (Math.random() - 0.5) * 10
           };
-        });
+        }));
 
         return await Promise.all(promises);
       },

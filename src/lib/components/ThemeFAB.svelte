@@ -4,6 +4,7 @@
 
   let theme = 'light';
   let menuOpen = false;
+  let lastRefresh = 0;
 
   function toggleTheme() {
     theme = theme === 'light' ? 'dark' : 'light';
@@ -12,6 +13,11 @@
   }
 
   function refreshAll() {
+    const now = Date.now();
+    if (now - lastRefresh < 30000) { // 30 second cooldown
+      return;
+    }
+    lastRefresh = now;
     triggerRefresh('all');
   }
 
