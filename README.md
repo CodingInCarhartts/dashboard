@@ -4,29 +4,50 @@ A modern, tabbed dashboard application built with SvelteKit and TypeScript, feat
 
 ## Features
 
-- **Tabbed Interface**: Organized into Home, Development, Finance, and Entertainment tabs
-- **Responsive Design**: Works on desktop and mobile devices
+- **5-Tab Interface**: Organized into Home, Development, Finance, Entertainment, and AI Chat tabs
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
 - **Dark/Light Themes**: Automatic theme switching support
-- **Caching**: Built-in caching with TTL for performance
-- **Widgets Include**:
-  - Reddit posts
-  - Weather information
-  - Hacker News stories
-  - GitHub repositories
-  - Dev.to articles
-  - Market indices and stocks
-  - Economic indicators
-  - Kick streaming
-  - YouTube videos
-  - RSS feeds
-  - Calendar events
-  - AI Chat (Gemini/Perplexity)
+- **Built-in Caching**: TTL-based caching system for optimal performance
+- **AI Chat**: Interactive chat with Gemini and Perplexity AI, including copy-to-clipboard functionality
+
+### Tab Organization
+
+**🏠 Home**
+- Reddit posts and discussions
+- Kick streaming content
+- Hacker News stories
+- YouTube videos
+- Weather information
+- Calendar events
+
+**💻 Development**
+- Hacker News tech stories
+- GitHub trending repositories
+- RSS feeds for tech news
+- Dev.to articles
+
+**💰 Finance**
+- Market indices and performance
+- Stock market data
+- Economic indicators
+
+**🎮 Entertainment**
+- Kick gaming streams
+- Twitch live streams
+- Reddit drama discussions
+- YouTube entertainment videos
+
+**🤖 AI Chat**
+- Interactive AI conversations
+- Support for Gemini and Perplexity models
+- Conversation history viewer
+- Copy-to-clipboard for assistant responses
 
 ## Installation
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/CodingInCarhartts/dashboard
    cd dashboard
    ```
 
@@ -36,15 +57,35 @@ A modern, tabbed dashboard application built with SvelteKit and TypeScript, feat
    ```
 
 3. Set up environment variables:
-   ```bash
-   cp src/lib/env.example.ts src/lib/env.ts
-   ```
-   Edit `src/lib/env.ts` and add your API keys:
-   - `KICK_SECRET`: Your Kick API secret
-   - `PERPLEXITY_API_KEY`: Perplexity API key for chat
-   - `GEMINI_API_KEY`: Google Gemini API key for chat
+    ```bash
+    cp src/lib/env.example.ts src/lib/env.ts
+    ```
+    Edit `src/lib/env.ts` and add your API keys:
 
-4. Start the development server:
+    **Required API Keys:**
+    - `PERPLEXITY_API_KEY`: Perplexity API key for AI chat
+    - `GEMINI_API_KEY`: Google Gemini API key for AI chat
+    - `SUPABASE_URL`: Your Supabase project URL
+    - `SUPABASE_API_KEY`: Your Supabase anon/public API key
+    - `SUPABASE_DATABASE_PASSWORD`: Your Supabase database password
+
+    **Optional API Keys (for enhanced features):**
+    - `KICK_SECRET`: Kick API secret for streaming data
+    - `TWITCH_CLIENT_ID`: Twitch API client ID
+    - `TWITCH_CLIENT_SECRET`: Twitch API client secret
+    - `ECONOMIC_API_KEY`: API key for economic indicators
+    - `FINNHUB_API_KEY`: Finnhub API key for financial data
+    - `YOUTUBE_API_KEY`: YouTube Data API key
+    - `REDDIT_ID`: Reddit API client ID
+    - `REDDIT_SECRET`: Reddit API client secret
+
+4. Set up Supabase database:
+    - Create a new project at [supabase.com](https://supabase.com)
+    - Go to Settings > API to get your project URL and API keys
+    - The database schema will be automatically created when you first run the application
+    - Chat conversations and other persistent data will be stored in Supabase
+
+5. Start the development server:
    ```bash
    npm run dev
    ```
@@ -53,10 +94,12 @@ A modern, tabbed dashboard application built with SvelteKit and TypeScript, feat
 
 ### Available Scripts
 
-- `npm run dev` - Start development server with hot reload
+- `npm run dev` - Start development server with hot reload (accessible at 0.0.0.0)
 - `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run check` - Type checking with svelte-check
+- `npm run preview` - Preview production build locally
+- `npm run check` - Run TypeScript type checking with svelte-check
+- `npm run check:watch` - Run type checking in watch mode
+- `npm run prepare` - Sync SvelteKit (runs automatically with npm install)
 
 ### Tech Stack
 
@@ -82,7 +125,26 @@ A modern, tabbed dashboard application built with SvelteKit and TypeScript, feat
 
 ## Deployment
 
-The application uses the Deno adapter for deployment. Build and deploy as needed for your platform.
+The application uses the **Deno adapter** for deployment, making it compatible with Deno-based hosting platforms.
+
+### Build Process
+
+1. Build the application:
+   ```bash
+   npm run build
+   ```
+
+2. The build output will be in the `.svelte-kit` directory, optimized for Deno deployment.
+
+### Deployment Options
+
+- **Deno Deploy**: Push directly to Deno Deploy for serverless deployment
+- **Vercel/Netlify**: Use their Deno runtime support
+- **Self-hosted**: Deploy the built application to any server supporting Deno
+
+### Environment Variables
+
+Ensure all environment variables are properly configured in your deployment platform's environment settings. The required Supabase variables are essential for data persistence.
 
 ## Contributing
 
@@ -92,4 +154,24 @@ The application uses the Deno adapter for deployment. Build and deploy as needed
 
 ## License
 
-[Add your license here]
+MIT License
+
+Copyright (c) 2025 CodingInCarhartts
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
