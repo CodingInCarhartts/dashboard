@@ -13,9 +13,9 @@
   }
 </script>
 
-<aside class="h-screen sticky top-0 border-r border-white/10 bg-background/20 backdrop-blur supports-[backdrop-filter]:bg-background/10 text-card-foreground flex flex-col transition-[width] duration-200" style={`width: ${collapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)'}`}
+<aside class="h-screen sticky top-0 bg-background/20 backdrop-blur supports-[backdrop-filter]:bg-background/10 text-card-foreground flex flex-col transition-[width] duration-200 border-4 border-black" style={`width: ${collapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)'}; box-shadow: 8px 8px 0px black;`}
 >
-  <div class="h-14 px-3 flex items-center justify-between border-b border-white/10">
+  <div class="h-14 px-3 flex items-center justify-between border-b-2 border-black">
     <div class="flex items-center gap-2 overflow-hidden">
       <div class="size-8 rounded-md bg-primary text-primary-foreground grid place-items-center font-bold">D</div>
       <div class="transition-opacity duration-200 {collapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}">

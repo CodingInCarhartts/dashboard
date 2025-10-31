@@ -2,14 +2,14 @@
 .widget-chat {
   --widget-padding: 1rem;
   --widget-gap: 0.75rem;
-  --widget-border-radius: var(--radius);
+  --widget-border-radius: 0;
   --widget-transition: all 0.2s ease-in-out;
   
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 4px solid black;
   border-radius: var(--widget-border-radius);
   padding: var(--widget-padding);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 8px 8px 0px black;
   color: var(--card-foreground);
   transition: var(--widget-transition);
   flex: 1;
@@ -18,6 +18,16 @@
   min-height: 500px;
   max-height: 750px;
   overflow: hidden;
+}
+
+.widget-chat:hover {
+  box-shadow: 12px 12px 0px black;
+  transform: translateY(-4px);
+}
+
+.widget-chat:active {
+  transform: translateY(0);
+  box-shadow: 8px 8px 0px black;
 }
 
 .chat-header {

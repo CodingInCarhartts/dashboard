@@ -75,10 +75,10 @@
   <button
     type="button"
     on:click={() => menuOpen = !menuOpen}
-    class="flex items-center justify-center text-white bg-blue-700 rounded-full w-12 h-12 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800"
+    class="flex items-center justify-center text-black bg-yellow-400 w-12 h-12 border-2 border-black focus:outline-none transition-all hover:translate-y-1 hover:shadow-sm font-bold" style="box-shadow: 4px 4px 0px black;"
     aria-label="Open menu"
   >
-    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
     </svg>
     <span class="sr-only">Open menu</span>

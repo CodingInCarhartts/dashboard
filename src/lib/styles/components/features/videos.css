@@ -1,21 +1,6 @@
+/* Videos widget specific styles - height preserved from original widget.css override */
 .widget {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1rem;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  color: var(--card-foreground);
-  transition: all 0.2s ease-in-out;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
   height: 600px;
-}
-
-.widget:hover {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  transform: translateY(-1px);
 }
 
 .widget h3 {
