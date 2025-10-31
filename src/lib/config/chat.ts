@@ -12,7 +12,7 @@ export const CHAT_CONFIG: {
     perplexity: {
       name: 'Perplexity AI',
       baseUrl: 'https://api.perplexity.ai',
-      model: 'sonar-pro',
+      model: 'sonar',
       apiKey: PERPLEXITY_API_KEY
     },
     gemini: {

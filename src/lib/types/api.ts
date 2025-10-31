@@ -50,6 +50,7 @@ export interface RssService {
 export interface ChatService {
   getAvailableModels(provider: Provider): ChatModel[];
   getChatResponse(provider: Provider, messages: Array<Pick<Message, 'role' | 'content'>>, options?: {maxTokens?: number, temperature?: number, model?: string}): Promise<{response: string, usage?: any}>;
+  generateTitle(userMessage: string): Promise<string>;
 }
 
 export interface WeatherService {

@@ -15,6 +15,47 @@ class ChatServiceImpl implements ChatService {
     }
   }
 
+  async generateTitle(userMessage: string): Promise<string> {
+    const prompt = `Create a concise, creative title for this AI chat based on the user's question: "${userMessage}". Keep it descriptive but under 50 characters. Make it engaging and relevant. Respond with only the title, no quotes or explanation.`;
+
+    try {
+      const response = await fetch(
+        `${CHAT_CONFIG.providers.gemini.baseUrl}/v1beta/models/${CHAT_CONFIG.providers.gemini.model}:generateContent?key=${CHAT_CONFIG.providers.gemini.apiKey}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: prompt
+              }]
+            }],
+            generationConfig: {
+              maxOutputTokens: 50,
+              temperature: 0.7
+            }
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Gemini API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const title = data.candidates[0].content.parts[0].text.trim();
+
+      // Ensure title is under 50 chars and clean
+      return title.length > 50 ? title.substring(0, 47) + '...' : title;
+    } catch (e) {
+      console.error('Error generating title:', e);
+      // Fallback to truncated user message
+      return userMessage.length > 47 ? userMessage.substring(0, 47) + '...' : userMessage;
+    }
+  }
+
   async getChatResponse(
     provider: Provider,
     messages: Array<Pick<Message, 'role' | 'content'>>,

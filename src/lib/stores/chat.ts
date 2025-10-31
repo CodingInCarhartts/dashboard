@@ -1,8 +1,9 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 import { browser } from '$app/environment';
 import type { Message, Provider, ChatState } from '../types';
 import { CHAT_CONFIG } from '../config';
 import { supabase } from '../supabase';
+import { chatService } from '../services/chat/chatService';
 
 const defaultState: ChatState = {
   messages: [],
@@ -55,6 +56,22 @@ function createChatStore() {
     }
   }
 
+  async function generateConversationTitle(conversationId: string, userMessage: string) {
+    try {
+      const title = await chatService.generateTitle(userMessage);
+
+      // Update conversation title in DB
+      const { error } = await supabase
+        .from('conversations')
+        .update({ title })
+        .eq('id', conversationId);
+
+      if (error) throw error;
+    } catch (e) {
+      console.error('Error updating conversation title:', e);
+    }
+  }
+
   async function saveMessage(message: Message): Promise<string | null> {
     if (!currentConversationId) return null;
 
@@ -95,6 +112,14 @@ function createChatStore() {
           error: error || '',
         };
       });
+
+      // Generate title for first user message
+      if (message.role === 'user' && currentConversationId) {
+        const state = get(chatStore);
+        if (state.messages.length === 1) { // First message
+          generateConversationTitle(currentConversationId, message.content);
+        }
+      }
     },
     clearChat: async () => {
       // Create new conversation ID
