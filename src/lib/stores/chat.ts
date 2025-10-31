@@ -55,8 +55,8 @@ function createChatStore() {
     }
   }
 
-  async function saveMessage(message: Message) {
-    if (!currentConversationId) return;
+  async function saveMessage(message: Message): Promise<string | null> {
+    if (!currentConversationId) return null;
 
     try {
       const { error } = await supabase
@@ -71,26 +71,59 @@ function createChatStore() {
         });
 
       if (error) throw error;
+      return null; // Success
     } catch (e) {
       console.error('Error saving message:', e);
+      // Handle Supabase error objects
+      const errorMsg = (e as any)?.message || (e as any)?.details || (e as any)?.hint || String(e);
+      return `Failed to save message: ${errorMsg}`;
     }
   }
 
   return {
     subscribe,
-    addMessage: (message: Message) => update((state) => {
-      const newMessages = [...state.messages, message];
-      if (newMessages.length > CHAT_CONFIG.maxHistoryLength) {
-        newMessages.splice(0, newMessages.length - CHAT_CONFIG.maxHistoryLength);
+    addMessage: async (message: Message) => {
+      const error = await saveMessage(message);
+      update((state) => {
+        const newMessages = [...state.messages, message];
+        if (newMessages.length > CHAT_CONFIG.maxHistoryLength) {
+          newMessages.splice(0, newMessages.length - CHAT_CONFIG.maxHistoryLength);
+        }
+        return {
+          ...state,
+          messages: newMessages,
+          error: error || '',
+        };
+      });
+    },
+    clearChat: async () => {
+      // Create new conversation ID
+      const newId = crypto.randomUUID();
+
+      try {
+        // Insert into DB first
+        const { error } = await supabase
+          .from('conversations')
+          .insert({ id: newId, title: 'New Chat' });
+
+        if (error) throw error;
+
+        // Only set if DB insert succeeded
+        currentConversationId = newId;
+        localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
+        set({ ...defaultState, currentProvider: defaultState.currentProvider, currentModel: defaultState.currentModel });
+      } catch (e) {
+        console.error('Error creating conversation in DB:', e);
+        // Fallback: still set locally but mark as failed
+        currentConversationId = newId;
+        localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
+        set({
+          ...defaultState,
+          currentProvider: defaultState.currentProvider,
+          currentModel: defaultState.currentModel,
+          error: 'Failed to create conversation in database'
+        });
       }
-      saveMessage(message); // Save to DB
-      return { ...state, messages: newMessages };
-    }),
-    clearChat: () => {
-      // Create new conversation
-      currentConversationId = crypto.randomUUID();
-      localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
-      set({ ...defaultState, currentProvider: defaultState.currentProvider, currentModel: defaultState.currentModel });
     },
     setLoading: (loading: boolean) => update((state) => ({ ...state, isLoading: loading })),
     setError: (error: string) => update((state) => ({ ...state, error })),

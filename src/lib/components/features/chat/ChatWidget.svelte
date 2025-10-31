@@ -3,6 +3,7 @@
   import { CHAT_CONFIG } from '$lib/config';
   import type { Message, Provider, StoredMessage } from '$lib/types';
   import { chatService } from '$lib/services/chat';
+  import { chatStore } from '$lib/stores/chat';
   import MessageBubble from './MessageBubble.svelte';
   import '$lib/styles/components/features/chat.css';
 
@@ -13,24 +14,36 @@
   let isLoading = false;
   let error = '';
 
+  // Subscribe to store errors
+  chatStore.subscribe((state) => {
+    if (state.error) {
+      error = state.error;
+    }
+  });
+
   function generateId(): string {
     return Math.random().toString(36).substring(2) + Date.now().toString(36);
   }
 
-  function addMessage(role: 'user' | 'assistant', content: string, provider?: string, model?: string): void {
-    messages = [...messages, {
+  async function addMessage(role: 'user' | 'assistant', content: string, provider?: string, model?: string): Promise<void> {
+    const message = {
       id: generateId(),
       role,
       content,
       timestamp: new Date(),
       provider,
       model
-    }];
+    };
+
+    messages = [...messages, message];
 
     // Limit message history
     if (messages.length > CHAT_CONFIG.maxHistoryLength) {
       messages = messages.slice(-CHAT_CONFIG.maxHistoryLength);
     }
+
+    // Save to store (and DB)
+    await chatStore.addMessage(message);
   }
 
   async function sendMessage(): Promise<void> {
@@ -40,7 +53,7 @@
     inputMessage = '';
     error = '';
 
-    addMessage('user', userMessage);
+    await addMessage('user', userMessage);
     isLoading = true;
 
     try {
@@ -50,7 +63,7 @@
       }));
 
       const response = await chatService.getChatResponse(currentProvider, chatMessages, { model: currentModel });
-      addMessage('assistant', response.response, currentProvider, currentModel);
+      await addMessage('assistant', response.response, currentProvider, currentModel);
     } catch (err) {
       console.error('Chat error:', err);
       error = err instanceof Error ? err.message : 'Failed to get response';
@@ -66,9 +79,10 @@
     }
   }
 
-  function clearChat(): void {
+  async function clearChat(): Promise<void> {
     messages = [];
     error = '';
+    await chatStore.clearChat();
   }
 
   function switchProvider(provider: Provider): void {
