@@ -4,7 +4,7 @@
   import { githubService } from "$lib/services/github";
   import type { GitHubRepo } from "$lib/types";
   import { GitHubRepoItem } from "./";
-  import "./github.css";
+  import '$lib/styles/components/features/github.css';
 
   let repos: GitHubRepo[] = [];
   let loading = true;

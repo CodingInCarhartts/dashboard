@@ -6,7 +6,7 @@
   import { weatherCodes, weatherIcons } from '$lib/utils/constants';
 
   import { WeatherCard } from './';
-  import './weather.css';
+  import '$lib/styles/components/features/weather.css';
 
   let location = WEATHER_CONFIG.location;
   let weather: WeatherData | null = null;

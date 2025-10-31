@@ -4,7 +4,7 @@
   import { getCachedYouTubeVideos } from '$lib/cache';
   import type { Video, YouTubeApiResponse } from '$lib/types';
   import { VideoItem } from './';
-  import './videos.css';
+  import '$lib/styles/components/features/videos.css';
 
   let channels = VIDEOS_CONFIG.channels;
 

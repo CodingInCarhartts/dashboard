@@ -4,7 +4,7 @@
   import type { Message, Provider, StoredMessage } from '$lib/types';
   import { chatService } from '$lib/services/chat';
   import MessageBubble from './MessageBubble.svelte';
-  import './chat.css';
+  import '$lib/styles/components/features/chat.css';
 
   let messages: Message[] = [];
   let currentProvider: Provider = CHAT_CONFIG.defaultProvider as Provider;

@@ -4,7 +4,7 @@
   import { marketsService } from '$lib/services/markets';
   import type { MarketIndex, Market } from '$lib/types';
   import { refreshStore } from '$lib/stores/refresh';
-  import './market-indices.css';
+  import '$lib/styles/components/features/market-indices.css';
 
   let indices: MarketIndex[] = [];
   let loading = true;

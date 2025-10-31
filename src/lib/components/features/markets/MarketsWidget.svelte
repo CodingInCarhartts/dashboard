@@ -5,7 +5,7 @@
   import type { Market } from '$lib/types';
   import { MarketItem } from './';
   import { refreshStore } from '$lib/stores/refresh';
-  import './markets.css';
+  import '$lib/styles/components/features/markets.css';
 
   let markets: Market[] = [];
   let loading = true;

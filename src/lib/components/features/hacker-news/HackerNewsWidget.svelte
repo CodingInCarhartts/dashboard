@@ -3,7 +3,7 @@
   import { hackerNewsService } from '$lib/services/hacker-news';
   import type { HNStory } from '$lib/types';
   import { HNStoryItem } from './';
-  import './hacker-news.css';
+  import '$lib/styles/components/features/hacker-news.css';
 
   let stories: HNStory[] = [];
   let loading = true;

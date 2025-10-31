@@ -3,7 +3,7 @@
   import { redditService } from '$lib/services/reddit';
   import { REDDIT_CONFIG } from '$lib/config/reddit';
   import type { RedditPost } from '$lib/types';
-  import './reddit.css';
+  import '$lib/styles/components/features/reddit.css';
 
   export let subreddits: string[] = REDDIT_CONFIG.entertainmentSubreddits.map(s => s.name);
 

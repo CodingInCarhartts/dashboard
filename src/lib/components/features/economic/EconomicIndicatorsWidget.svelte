@@ -3,7 +3,7 @@
   import { getCachedEconomicIndicators } from '$lib/cache';
   import type { EconomicIndicator } from '$lib/types';
   import { EconomicIndicatorItem } from './';
-  import './economic.css';
+  import '$lib/styles/components/features/economic.css';
 
   let indicators: EconomicIndicator[] = [];
   let loading = true;

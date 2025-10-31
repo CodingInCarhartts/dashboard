@@ -4,7 +4,7 @@
   import { getCachedTwitchStreams } from '$lib/cache';
   import type { TwitchStream, TwitchApiResponse } from '$lib/types';
   import { TwitchStreamItem } from './';
-  import './twitch.css';
+  import '$lib/styles/components/features/twitch.css';
 
   let streams: TwitchStream[] = [];
   let loading = true;

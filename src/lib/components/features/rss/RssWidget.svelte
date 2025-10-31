@@ -4,7 +4,7 @@
   import { rssService } from '$lib/services/rss';
   import type { RssFeed, RssItem } from '$lib/types';
   import { RssItem as RssItemComponent } from './';
-  import './rss.css';
+  import '$lib/styles/components/features/rss.css';
 
   let feeds: RssFeed[] = RSS_CONFIG.feeds;
 

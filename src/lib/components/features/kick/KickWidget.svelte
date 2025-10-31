@@ -4,7 +4,7 @@
   import { getCachedKickChannels } from '$lib/cache';
   import type { KickChannel, KickApiResponse } from '$lib/types';
   import { KickStreamItem } from './';
-  import './kick.css';
+  import '$lib/styles/components/features/kick.css';
 
   let channels: KickChannel[] = [];
   let loading = true;

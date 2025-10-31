@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import './calendar.css';
+  import '$lib/styles/components/features/calendar.css';
 
   let currentTime = '';
 

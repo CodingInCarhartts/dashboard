@@ -3,7 +3,7 @@
   import { getCachedDevtoArticles } from '$lib/cache';
   import type { DevtoArticle } from '$lib/types';
   import { DevtoArticleItem } from './';
-  import './devto.css';
+  import '$lib/styles/components/features/devto.css';
 
   let articles: DevtoArticle[] = [];
   let loading = true;
