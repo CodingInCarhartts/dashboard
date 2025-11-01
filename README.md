@@ -1,6 +1,69 @@
-# Dashboard
+<div align="center">
 
-A modern, tabbed dashboard application built with SvelteKit and TypeScript, featuring various widgets for news, weather, development tools, finance, and entertainment.
+# 🚀 Dashboard
+
+[![Svelte](https://img.shields.io/badge/svelte-5+-ff3e00.svg)](https://svelte.dev/)
+[![SvelteKit](https://img.shields.io/badge/sveltekit-2+-ff3e00.svg)](https://kit.svelte.dev/)
+[![TypeScript](https://img.shields.io/badge/typescript-5+-3178c6.svg)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/tailwindcss-4+-38bdf8.svg)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+**A modern, tabbed dashboard application built with SvelteKit and TypeScript, featuring various widgets for news, weather, development tools, finance, and entertainment**
+
+*Your all-in-one hub for staying updated with the latest in tech, finance, entertainment, and AI*
+
+[Installation](#-installation) •
+[Features](#-features) •
+[Development](#-development) •
+[Deployment](#-deployment) •
+[Contributing](#-contributing) •
+[License](#-license)
+
+</div>
+
+---
+
+## 📖 Overview
+
+Dashboard is a comprehensive web application that aggregates information from multiple sources into an organized, tabbed interface. Built with modern web technologies, it provides real-time updates on news, weather, development trends, financial data, entertainment content, and AI-powered chat capabilities.
+
+```mermaid
+graph TD
+    A[User Access] --> B[Tabbed Interface]
+    B --> C[Home Tab]
+    B --> D[Development Tab]
+    B --> E[Finance Tab]
+    B --> F[Entertainment Tab]
+    B --> G[AI Chat Tab]
+
+    C --> H[Reddit]
+    C --> I[Kick]
+    C --> J[Hacker News]
+    C --> K[YouTube]
+    C --> L[Weather]
+    C --> M[Calendar]
+
+    D --> N[Hacker News]
+    D --> O[GitHub]
+    D --> P[RSS Feeds]
+    D --> Q[Dev.to]
+
+    E --> R[Market Indices]
+    E --> S[Stock Data]
+    E --> T[Economic Indicators]
+
+    F --> U[Kick Streams]
+    F --> V[Twitch Streams]
+    F --> W[Reddit Drama]
+    F --> X[YouTube Videos]
+
+    G --> Y[Gemini AI]
+    G --> Z[Perplexity AI]
+```
+
+<div align="center">
+  <p><i>Dashboard architecture showing tab organization and data sources</i></p>
+</div>
 
 ## Features
 
