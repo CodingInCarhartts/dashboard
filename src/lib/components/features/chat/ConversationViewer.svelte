@@ -84,6 +84,10 @@
   function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString();
   }
+
+  function truncateTitle(title: string, maxLength: number = 25): string {
+    return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
+  }
 </script>
 
 <div class="conversation-viewer">
@@ -102,7 +106,7 @@
           class="conversation-toggle flex items-center justify-between p-3 border rounded hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
         >
           <div class="conversation-info">
-            <div class="font-medium">{conversation.title || 'Untitled Chat'}</div>
+            <div class="font-medium">{truncateTitle(conversation.title || 'Untitled Chat')}</div>
             {#if conversation.provider && conversation.model}
               <div class="text-sm text-gray-600 dark:text-gray-400">
                 {conversation.provider} - {conversation.model}
@@ -128,13 +132,13 @@
 
   <div class="mt-4 space-y-2">
     <button
-      class="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+      class="w-full bg-green-500 text-white py-2 px-4 font-bold border-2 border-black transition-all hover:translate-y-1" style="box-shadow: 3px 3px 0px black;"
       on:click={startNewChat}
     >
       New Chat
     </button>
     <button
-      class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+      class="w-full bg-blue-500 text-white py-2 px-4 font-bold border-2 border-black transition-all hover:translate-y-1 disabled:opacity-50" style="box-shadow: 3px 3px 0px black;"
       on:click={loadConversations}
       disabled={loading}
     >
