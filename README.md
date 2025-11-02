@@ -10,7 +10,7 @@
 
 **A modern, tabbed dashboard application built with SvelteKit and TypeScript, featuring various widgets for news, weather, development tools, finance, and entertainment**
 
-*Your all-in-one hub for staying updated with the latest in tech, finance, entertainment, and AI*
+_Your all-in-one hub for staying updated with the latest in tech, finance, entertainment, and AI_
 
 [Installation](#-installation) •
 [Features](#-features) •
@@ -76,6 +76,7 @@ graph TD
 ### Tab Organization
 
 **🏠 Home**
+
 - Reddit posts and discussions
 - Kick streaming content
 - Hacker News stories
@@ -84,23 +85,27 @@ graph TD
 - Calendar events
 
 **💻 Development**
+
 - Hacker News tech stories
 - GitHub trending repositories
 - RSS feeds for tech news
 - Dev.to articles
 
 **💰 Finance**
+
 - Market indices and performance
 - Stock market data
 - Economic indicators
 
 **🎮 Entertainment**
+
 - Kick gaming streams
 - Twitch live streams
 - Reddit drama discussions
 - YouTube entertainment videos
 
 **🤖 AI Chat**
+
 - Interactive AI conversations
 - Support for Gemini and Perplexity models
 - Conversation history viewer
@@ -109,44 +114,48 @@ graph TD
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/CodingInCarhartts/dashboard
    cd dashboard
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Set up environment variables:
-    ```bash
-    cp src/lib/env.example.ts src/lib/env.ts
-    ```
-    Edit `src/lib/env.ts` and add your API keys:
 
-    **Required API Keys:**
-    - `PERPLEXITY_API_KEY`: Perplexity API key for AI chat
-    - `GEMINI_API_KEY`: Google Gemini API key for AI chat
-    - `SUPABASE_URL`: Your Supabase project URL
-    - `SUPABASE_API_KEY`: Your Supabase anon/public API key
-    - `SUPABASE_DATABASE_PASSWORD`: Your Supabase database password
+   ```bash
+   cp src/lib/env.example.ts src/lib/env.ts
+   ```
 
-    **Optional API Keys (for enhanced features):**
-    - `KICK_SECRET`: Kick API secret for streaming data
-    - `TWITCH_CLIENT_ID`: Twitch API client ID
-    - `TWITCH_CLIENT_SECRET`: Twitch API client secret
-    - `ECONOMIC_API_KEY`: API key for economic indicators
-    - `FINNHUB_API_KEY`: Finnhub API key for financial data
-    - `YOUTUBE_API_KEY`: YouTube Data API key
-    - `REDDIT_ID`: Reddit API client ID
-    - `REDDIT_SECRET`: Reddit API client secret
+   Edit `src/lib/env.ts` and add your API keys:
+
+   **Required API Keys:**
+   - `PERPLEXITY_API_KEY`: Perplexity API key for AI chat
+   - `GEMINI_API_KEY`: Google Gemini API key for AI chat
+   - `SUPABASE_URL`: Your Supabase project URL
+   - `SUPABASE_API_KEY`: Your Supabase anon/public API key
+   - `SUPABASE_DATABASE_PASSWORD`: Your Supabase database password
+
+   **Optional API Keys (for enhanced features):**
+   - `KICK_SECRET`: Kick API secret for streaming data
+   - `TWITCH_CLIENT_ID`: Twitch API client ID
+   - `TWITCH_CLIENT_SECRET`: Twitch API client secret
+   - `ECONOMIC_API_KEY`: API key for economic indicators
+   - `FINNHUB_API_KEY`: Finnhub API key for financial data
+   - `YOUTUBE_API_KEY`: YouTube Data API key
+   - `REDDIT_ID`: Reddit API client ID
+   - `REDDIT_SECRET`: Reddit API client secret
 
 4. Set up Supabase database:
-    - Create a new project at [supabase.com](https://supabase.com)
-    - Go to Settings > API to get your project URL and API keys
-    - The database schema will be automatically created when you first run the application
-    - Chat conversations and other persistent data will be stored in Supabase
+   - Create a new project at [supabase.com](https://supabase.com)
+   - Go to Settings > API to get your project URL and API keys
+   - The database schema will be automatically created when you first run the application
+   - Chat conversations and other persistent data will be stored in Supabase
 
 5. Start the development server:
    ```bash
@@ -193,6 +202,7 @@ The application uses the **Deno adapter** for deployment, making it compatible w
 ### Build Process
 
 1. Build the application:
+
    ```bash
    npm run build
    ```

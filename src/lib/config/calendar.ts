@@ -1,3 +1,3 @@
 export const CALENDAR_CONFIG = {
-  firstDayOfWeek: 'monday' as const
+  firstDayOfWeek: 'monday' as const,
 };

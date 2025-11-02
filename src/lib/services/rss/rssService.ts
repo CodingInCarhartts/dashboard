@@ -8,7 +8,9 @@ class RssServiceImpl implements RssService {
     return cache.getOrFetch(
       cacheKey,
       async () => {
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`);
+        const response = await fetch(
+          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`
+        );
         if (!response.ok) {
           throw new Error(`RSS API error: ${response.statusText}`);
         }

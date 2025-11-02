@@ -59,7 +59,8 @@
   color: var(--primary);
 }
 
-.date, .reading-time {
+.date,
+.reading-time {
   opacity: 0.8;
 }
 

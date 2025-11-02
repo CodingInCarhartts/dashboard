@@ -26,7 +26,7 @@ export const weatherCodes: { [key: number]: string } = {
   86: 'Heavy snow showers',
   95: 'Thunderstorm',
   96: 'Thunderstorm with slight hail',
-  99: 'Thunderstorm with heavy hail'
+  99: 'Thunderstorm with heavy hail',
 };
 
 export const weatherIcons: { [key: number]: string } = {
@@ -57,5 +57,5 @@ export const weatherIcons: { [key: number]: string } = {
   86: '🌨️',
   95: '⛈️',
   96: '⛈️',
-  99: '⛈️'
+  99: '⛈️',
 };

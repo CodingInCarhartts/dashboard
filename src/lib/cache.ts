@@ -92,7 +92,7 @@ class ClientCache {
         timestamp: Date.now(),
         lastAccessed: Date.now(),
         compressed,
-        size
+        size,
       };
       localStorage.setItem(this.getStorageKey(key), JSON.stringify(entry));
     } catch (error) {
@@ -132,11 +132,7 @@ class ClientCache {
     }
   }
 
-  async getOrFetch<T>(
-    key: string,
-    fetchFn: () => Promise<T>,
-    ttl: number
-  ): Promise<T> {
+  async getOrFetch<T>(key: string, fetchFn: () => Promise<T>, ttl: number): Promise<T> {
     // Check cache first
     if (await this.isValid<T>(key, ttl)) {
       const cached = await this.get<T>(key);
@@ -172,7 +168,7 @@ class ClientCache {
       } else {
         // Clear all cache entries
         const keys = Object.keys(localStorage);
-        keys.forEach(k => {
+        keys.forEach((k) => {
           if (k.startsWith('dashboard_cache_')) {
             localStorage.removeItem(k);
           }
@@ -187,11 +183,6 @@ class ClientCache {
 export const cache = new ClientCache();
 
 // Convenience functions for different data types
-
-
-
-
-
 
 export async function getCachedYouTubeVideos(channelId: string): Promise<any> {
   const cacheKey = `youtube_${channelId}`;
@@ -237,21 +228,19 @@ export async function getCachedRedditPosts(subreddit: string): Promise<any[]> {
   );
 }
 
-
-
-
-
-export async function getCachedEconomicIndicators(): Promise<Array<{
-  id: string;
-  name: string;
-  value: number;
-  date: string;
-  previousValue?: number;
-  change?: number;
-  changePercent?: number;
-  frequency: string;
-  unit: string;
-}>> {
+export async function getCachedEconomicIndicators(): Promise<
+  Array<{
+    id: string;
+    name: string;
+    value: number;
+    date: string;
+    previousValue?: number;
+    change?: number;
+    changePercent?: number;
+    frequency: string;
+    unit: string;
+  }>
+> {
   const cacheKey = 'economic_indicators';
   return cache.getOrFetch(
     cacheKey,
@@ -272,9 +261,6 @@ export async function getCachedDevtoArticles(): Promise<any[]> {
     CACHE_CONFIG.devto.ttl
   );
 }
-
-
-
 
 // Cache management utilities
 export async function clearAllCache(): Promise<void> {
@@ -327,7 +313,7 @@ export async function getCacheStats(): Promise<{
             key: cacheKey,
             age,
             size: dataSize,
-            compressed: entry.compressed
+            compressed: entry.compressed,
           });
         } catch (e) {
           // Invalid JSON, skip
@@ -339,6 +325,6 @@ export async function getCacheStats(): Promise<{
   return {
     totalEntries: entries.length,
     totalSize,
-    entries
+    entries,
   };
 }

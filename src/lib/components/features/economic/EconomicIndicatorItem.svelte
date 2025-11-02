@@ -30,7 +30,11 @@
   <div class="indicator-value">
     <span class="value">{formatValue(indicator.value, indicator.unit)}</span>
     {#if indicator.change !== undefined && indicator.changePercent !== undefined}
-      <span class="change" class:positive={indicator.change > 0} class:negative={indicator.change < 0}>
+      <span
+        class="change"
+        class:positive={indicator.change > 0}
+        class:negative={indicator.change < 0}
+      >
         {formatChange(indicator.change, indicator.changePercent, indicator.unit)}
       </span>
     {/if}

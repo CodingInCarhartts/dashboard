@@ -34,7 +34,7 @@ class EconomicServiceImpl implements EconomicService {
               change,
               changePercent,
               frequency: indicator.frequency,
-              unit: indicator.unit
+              unit: indicator.unit,
             };
           }
         }
@@ -51,7 +51,7 @@ class EconomicServiceImpl implements EconomicService {
               value: currentValue,
               date: latest.date,
               frequency: indicator.frequency,
-              unit: indicator.unit
+              unit: indicator.unit,
             };
           }
         }
@@ -66,7 +66,7 @@ class EconomicServiceImpl implements EconomicService {
         value: Math.random() * 100,
         date: new Date().toISOString().split('T')[0],
         frequency: indicator.frequency,
-        unit: indicator.unit
+        unit: indicator.unit,
       };
     });
 

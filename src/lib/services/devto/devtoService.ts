@@ -5,7 +5,9 @@ class DevtoServiceImpl implements DevtoService {
   async fetchDevtoArticles(): Promise<DevtoArticle[]> {
     const feedPromises = DEVTO_CONFIG.feeds.map(async (feed) => {
       try {
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`);
+        const response = await fetch(
+          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`
+        );
         if (!response.ok) {
           throw new Error(`Dev.to API error for ${feed.url}: ${response.statusText}`);
         }
@@ -14,7 +16,7 @@ class DevtoServiceImpl implements DevtoService {
           return data.items.slice(0, feed.limit).map((item: any) => ({
             ...item,
             feedTitle: feed.title,
-            tags: item.categories || []
+            tags: item.categories || [],
           }));
         }
       } catch (error) {
@@ -28,7 +30,7 @@ class DevtoServiceImpl implements DevtoService {
 
     // Remove duplicates based on title and deduplicate
     const seen = new Set<string>();
-    const uniqueArticles = allArticles.filter(article => {
+    const uniqueArticles = allArticles.filter((article) => {
       const key = `${article.title}_${article.pubDate}`;
       if (seen.has(key)) return false;
       seen.add(key);

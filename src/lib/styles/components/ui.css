@@ -1,6 +1,5 @@
 /* Shared UI Component Styles */
 
-
 /* Loading states */
 .loading-spinner {
   @apply animate-spin rounded-full border-2 border-muted border-t-primary;

@@ -14,7 +14,19 @@
     await loadStats();
   }
 
-  async function clearType(type: 'hacker_news' | 'weather' | 'rss' | 'youtube' | 'kick' | 'reddit' | 'github' | 'markets' | 'devto' | 'economic') {
+  async function clearType(
+    type:
+      | 'hacker_news'
+      | 'weather'
+      | 'rss'
+      | 'youtube'
+      | 'kick'
+      | 'reddit'
+      | 'github'
+      | 'markets'
+      | 'devto'
+      | 'economic'
+  ) {
     await clearCacheByType(type);
     await loadStats();
   }
@@ -50,7 +62,7 @@
 
     <div class="actions">
       <button on:click={clearAll} class="clear-btn">Clear All Cache</button>
-      <button on:click={() => showDetails = !showDetails} class="details-btn">
+      <button on:click={() => (showDetails = !showDetails)} class="details-btn">
         {showDetails ? 'Hide' : 'Show'} Details
       </button>
     </div>
@@ -102,7 +114,9 @@
     margin-bottom: 1rem;
   }
 
-  .clear-btn, .details-btn, .clear-type-btn {
+  .clear-btn,
+  .details-btn,
+  .clear-type-btn {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
@@ -112,7 +126,8 @@
     font-size: 0.8rem;
   }
 
-  .clear-btn:hover, .clear-type-btn:hover {
+  .clear-btn:hover,
+  .clear-type-btn:hover {
     background: rgba(255, 0, 0, 0.2);
     border-color: rgba(255, 0, 0, 0.4);
   }
@@ -140,7 +155,8 @@
     font-size: 0.8rem;
   }
 
-  .age, .size {
+  .age,
+  .size {
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.7);
   }

@@ -1,24 +1,21 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { GITHUB_CONFIG } from "$lib/config";
-  import { githubService } from "$lib/services/github";
-  import type { GitHubRepo } from "$lib/types";
-  import { GitHubRepoItem } from "./";
+  import { onMount } from 'svelte';
+  import { GITHUB_CONFIG } from '$lib/config';
+  import { githubService } from '$lib/services/github';
+  import type { GitHubRepo } from '$lib/types';
+  import { GitHubRepoItem } from './';
   import '$lib/styles/components/features/github.css';
 
   let repos: GitHubRepo[] = [];
   let loading = true;
-  let error = "";
+  let error = '';
 
   onMount(async () => {
     try {
-      repos = await githubService.fetchGithubRepos(
-        GITHUB_CONFIG.username,
-        GITHUB_CONFIG.limit,
-      );
+      repos = await githubService.fetchGithubRepos(GITHUB_CONFIG.username, GITHUB_CONFIG.limit);
     } catch (err) {
-      error = "Failed to load GitHub repos";
-      console.error("Error loading GitHub repos:", err);
+      error = 'Failed to load GitHub repos';
+      console.error('Error loading GitHub repos:', err);
     } finally {
       loading = false;
     }
@@ -49,4 +46,3 @@
     </div>
   {/if}
 </div>
-

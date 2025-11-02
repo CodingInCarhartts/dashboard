@@ -33,35 +33,39 @@
       {
         icon: '🌡️',
         label: 'Feels Like',
-        value: `${weather.feelsLike}°`
+        value: `${weather.feelsLike}°`,
       },
       {
         icon: '💧',
         label: 'Humidity',
-        value: `${weather.humidity}%`
+        value: `${weather.humidity}%`,
       },
       {
         icon: '💨',
         label: 'Wind',
-        value: `${weather.windspeed} ${WEATHER_CONFIG.units === 'imperial' ? 'mph' : 'km/h'}`
+        value: `${weather.windspeed} ${WEATHER_CONFIG.units === 'imperial' ? 'mph' : 'km/h'}`,
       },
       {
         icon: '🌅',
         label: 'Sunrise',
-        value: formatTime(weather.sunrise)
+        value: formatTime(weather.sunrise),
       },
       {
         icon: '🌇',
         label: 'Sunset',
-        value: formatTime(weather.sunset)
-      }
+        value: formatTime(weather.sunset),
+      },
     ];
-   }
+  }
 
   async function fetchWeather() {
     try {
       const units = WEATHER_CONFIG.units === 'imperial' ? 'fahrenheit' : 'celsius';
-      const data = await weatherService.fetchWeather(WEATHER_CONFIG.latitude, WEATHER_CONFIG.longitude, units);
+      const data = await weatherService.fetchWeather(
+        WEATHER_CONFIG.latitude,
+        WEATHER_CONFIG.longitude,
+        units
+      );
       weather = {
         temperature: data.current.temperature_2m,
         weathercode: data.current.weather_code,
@@ -71,7 +75,7 @@
         feelsLike: data.current.apparent_temperature,
         pressure: data.current.pressure_msl,
         sunrise: data.daily.sunrise[0],
-        sunset: data.daily.sunset[0]
+        sunset: data.daily.sunset[0],
       };
     } catch (err) {
       error = 'Failed to load weather';
@@ -136,35 +140,49 @@
 
 <div class="widget weather-widget {weather ? getTemperatureTheme(weather.temperature) : ''}">
   <h3>Weather - {location}</h3>
-   {#if loading}
-     <div class="weather-loading">
-       <div class="weather-loading-spinner"></div>
-       <span>Loading weather...</span>
-     </div>
-   {:else if error}
-     <div class="weather-error">
-       <div class="weather-error-icon">⚠️</div>
-       <div class="weather-error-message">{error}</div>
-     </div>
-   {:else if weather}
-     <div class="weather-content">
-       <div class="weather-main">
-         <div class="weather-icon">{weatherIcons[weather.weathercode] || '❓'}</div>
-         <div class="temp">{weather.temperature}<span class="temp-unit">°{WEATHER_CONFIG.units === 'imperial' ? 'F' : 'C'}</span></div>
-       </div>
-       <div class="condition">{weatherCodes[weather.weathercode] || 'Unknown'}</div>
-              <div class="weather-details-carousel" role="region" on:mouseenter={() => isPaused = true} on:mouseleave={() => isPaused = false}>
-                <div class="weather-details" style="transform: translateX(-{currentSlide * 100}%)">
-                  {#each getWeatherDetails(weather) as detail}
-                    <WeatherCard {detail} />
-                  {/each}
-                </div>
-                <div class="carousel-dots">
-                  {#each getWeatherDetails(weather) as _, i}
-                    <button class="dot" class:active={i === currentSlide} on:click={() => goToSlide(i)} aria-label="Go to weather detail {i + 1}"></button>
-                  {/each}
-                </div>
-              </div>     </div>
-   {/if}
+  {#if loading}
+    <div class="weather-loading">
+      <div class="weather-loading-spinner"></div>
+      <span>Loading weather...</span>
+    </div>
+  {:else if error}
+    <div class="weather-error">
+      <div class="weather-error-icon">⚠️</div>
+      <div class="weather-error-message">{error}</div>
+    </div>
+  {:else if weather}
+    <div class="weather-content">
+      <div class="weather-main">
+        <div class="weather-icon">{weatherIcons[weather.weathercode] || '❓'}</div>
+        <div class="temp">
+          {weather.temperature}<span class="temp-unit"
+            >°{WEATHER_CONFIG.units === 'imperial' ? 'F' : 'C'}</span
+          >
+        </div>
+      </div>
+      <div class="condition">{weatherCodes[weather.weathercode] || 'Unknown'}</div>
+      <div
+        class="weather-details-carousel"
+        role="region"
+        on:mouseenter={() => (isPaused = true)}
+        on:mouseleave={() => (isPaused = false)}
+      >
+        <div class="weather-details" style="transform: translateX(-{currentSlide * 100}%)">
+          {#each getWeatherDetails(weather) as detail}
+            <WeatherCard {detail} />
+          {/each}
+        </div>
+        <div class="carousel-dots">
+          {#each getWeatherDetails(weather) as _, i}
+            <button
+              class="dot"
+              class:active={i === currentSlide}
+              on:click={() => goToSlide(i)}
+              aria-label="Go to weather detail {i + 1}"
+            ></button>
+          {/each}
+        </div>
+      </div>
+    </div>
+  {/if}
 </div>
-

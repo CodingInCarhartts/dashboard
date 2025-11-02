@@ -22,4 +22,3 @@ export interface OHLCData {
   low: number;
   close: number;
 }
-

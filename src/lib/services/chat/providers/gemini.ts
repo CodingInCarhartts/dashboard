@@ -12,6 +12,6 @@ export const getGeminiModels = (): ChatModel[] => {
     { id: 'gemini-2.5-computer-use', name: 'Gemini 2.5 Computer Use' },
     { id: 'gemini-ultra', name: 'Gemini Ultra' },
     { id: 'gemini-nano', name: 'Gemini Nano' },
-    { id: 'gemini-pro', name: 'Gemini Pro' }
+    { id: 'gemini-pro', name: 'Gemini Pro' },
   ];
 };

@@ -40,13 +40,13 @@ export const KICK_CONFIG = {
     'baedot',
     'sashaspits',
     'babyygrim',
-    'vanessababyy'
+    'vanessababyy',
   ],
   sortBy: 'viewers',
   collapseAfter: 3,
   appAuth: {
-    name: "YumlabsLiveMonitor",
-    id: "01K8PZK4HKMTGE895EPAGBR6K7",
-    secret: KICK_SECRET
-  }
+    name: 'YumlabsLiveMonitor',
+    id: '01K8PZK4HKMTGE895EPAGBR6K7',
+    secret: KICK_SECRET,
+  },
 };

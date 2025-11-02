@@ -132,13 +132,15 @@
 
   <div class="mt-4 space-y-2">
     <button
-      class="w-full bg-green-500 text-white py-2 px-4 font-bold border-2 border-black transition-all hover:translate-y-1" style="box-shadow: 3px 3px 0px black;"
+      class="w-full bg-green-500 text-white py-2 px-4 font-bold border-2 border-black transition-all hover:translate-y-1"
+      style="box-shadow: 3px 3px 0px black;"
       on:click={startNewChat}
     >
       New Chat
     </button>
     <button
-      class="w-full bg-blue-500 text-white py-2 px-4 font-bold border-2 border-black transition-all hover:translate-y-1 disabled:opacity-50" style="box-shadow: 3px 3px 0px black;"
+      class="w-full bg-blue-500 text-white py-2 px-4 font-bold border-2 border-black transition-all hover:translate-y-1 disabled:opacity-50"
+      style="box-shadow: 3px 3px 0px black;"
       on:click={loadConversations}
       disabled={loading}
     >
@@ -182,7 +184,7 @@
 
   .toggle-slider:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 18px;
     width: 18px;
     left: 3px;
@@ -193,7 +195,7 @@
   }
 
   .toggle-input:checked + .toggle-slider {
-    background-color: #2196F3;
+    background-color: #2196f3;
   }
 
   .toggle-input:checked + .toggle-slider:before {
@@ -201,7 +203,6 @@
   }
 
   .toggle-input:focus + .toggle-slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #2196f3;
   }
 </style>
-

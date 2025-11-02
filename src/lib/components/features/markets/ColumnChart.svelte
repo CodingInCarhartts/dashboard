@@ -28,9 +28,9 @@
       series: [
         {
           name: `${symbol} OHLC`,
-          data: ohlcData.map(d => ({
+          data: ohlcData.map((d) => ({
             x: d.date,
-            y: [d.open, d.high, d.low, d.close]
+            y: [d.open, d.high, d.low, d.close],
           })),
         },
       ],
@@ -47,9 +47,9 @@
         candlestick: {
           colors: {
             upward: '#1A56DB',
-            downward: '#F05252'
-          }
-        }
+            downward: '#F05252',
+          },
+        },
       },
       tooltip: {
         enabled: true,

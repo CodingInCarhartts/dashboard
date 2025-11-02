@@ -15,7 +15,7 @@ class YoutubeServiceImpl implements YoutubeService {
       title: item.snippet.title,
       link: `https://www.youtube.com/watch?v=${item.id.videoId}`,
       pubDate: item.snippet.publishedAt,
-      thumbnail: item.snippet.thumbnails.default.url
+      thumbnail: item.snippet.thumbnails.default.url,
     }));
     return { items };
   }

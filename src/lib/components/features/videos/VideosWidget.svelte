@@ -15,12 +15,14 @@
   async function fetchVideos(channelId: string, limit: number = 3): Promise<Video[]> {
     try {
       const data: YouTubeApiResponse = await getCachedYouTubeVideos(channelId);
-      return data.items?.slice(0, limit).map((item) => ({
-        title: item.title,
-        link: item.link,
-        published: item.pubDate,
-        thumbnail: item.thumbnail
-      })) || [];
+      return (
+        data.items?.slice(0, limit).map((item) => ({
+          title: item.title,
+          link: item.link,
+          published: item.pubDate,
+          thumbnail: item.thumbnail,
+        })) || []
+      );
     } catch (err) {
       console.error('Error fetching videos:', err);
       return [];
@@ -34,7 +36,9 @@
         const channelVideos = await fetchVideos(channel.id, VIDEOS_CONFIG.limit);
         allVideos.push(...channelVideos);
       }
-      videos = allVideos.sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime()).slice(0, 10);
+      videos = allVideos
+        .sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime())
+        .slice(0, 10);
     } catch (err) {
       error = 'Failed to load videos';
     } finally {
@@ -57,4 +61,3 @@
     </div>
   {/if}
 </div>
-

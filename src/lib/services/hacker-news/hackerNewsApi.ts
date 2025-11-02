@@ -18,13 +18,13 @@ export async function fetchHackerNewsApi(): Promise<HNStory[]> {
 
   const stories = await Promise.all(storyPromises);
   return stories
-    .filter(story => story && story.type === 'story')
-    .map(story => ({
+    .filter((story) => story && story.type === 'story')
+    .map((story) => ({
       id: story.id,
       title: story.title,
       url: story.url,
       score: story.score,
       by: story.by,
-      time: story.time
+      time: story.time,
     }));
 }

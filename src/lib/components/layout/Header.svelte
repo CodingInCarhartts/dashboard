@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { DEFAULT_TABS, getTabConfig } from '$lib/config/tabs'
-  import { tabStore } from '$lib/stores/tabs'
-  let search = ''
-  $: activeTabId = $tabStore.activeTab
-  $: title = getTabConfig(activeTabId)?.label || 'Dashboard'
+  import { DEFAULT_TABS, getTabConfig } from '$lib/config/tabs';
+  import { tabStore } from '$lib/stores/tabs';
+  let search = '';
+  $: activeTabId = $tabStore.activeTab;
+  $: title = getTabConfig(activeTabId)?.label || 'Dashboard';
 </script>
 
 <header class="h-14 border-b border-border bg-transparent px-4 flex items-center justify-between">

@@ -22,9 +22,17 @@ export interface DevtoService {
 }
 
 export interface MarketsService {
-  fetchMarkets(markets: Array<{symbol: string, name: string}>, forceRefresh?: boolean): Promise<Market[]>;
+  fetchMarkets(
+    markets: Array<{ symbol: string; name: string }>,
+    forceRefresh?: boolean
+  ): Promise<Market[]>;
   searchSymbols(query: string): Promise<Market[]>;
-  fetchHistoricalData(symbol: string, resolution: string, days: number, forceRefresh?: boolean): Promise<HistoricalData[]>;
+  fetchHistoricalData(
+    symbol: string,
+    resolution: string,
+    days: number,
+    forceRefresh?: boolean
+  ): Promise<HistoricalData[]>;
 }
 
 export interface EconomicService {
@@ -49,7 +57,11 @@ export interface RssService {
 
 export interface ChatService {
   getAvailableModels(provider: Provider): ChatModel[];
-  getChatResponse(provider: Provider, messages: Array<Pick<Message, 'role' | 'content'>>, options?: {maxTokens?: number, temperature?: number, model?: string}): Promise<{response: string, usage?: any}>;
+  getChatResponse(
+    provider: Provider,
+    messages: Array<Pick<Message, 'role' | 'content'>>,
+    options?: { maxTokens?: number; temperature?: number; model?: string }
+  ): Promise<{ response: string; usage?: any }>;
   generateTitle(userMessage: string): Promise<string>;
 }
 

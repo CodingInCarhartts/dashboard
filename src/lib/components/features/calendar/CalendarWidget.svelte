@@ -18,4 +18,3 @@
 <div class="widget-calendar">
   <p class="time-display">{currentTime}</p>
 </div>
-

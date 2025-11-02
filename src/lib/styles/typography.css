@@ -1,24 +1,26 @@
 /* Typography System */
 :root {
   /* Font Families */
-  --font-sans: 'Syne', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  
+  --font-sans:
+    'Syne', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+
   /* Font Weights */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  
+
   /* Line Heights */
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
-  
+
   /* Letter Spacing */
   --letter-spacing-tight: -0.01em;
   --letter-spacing-normal: 0;
   --letter-spacing-wide: 0.01em;
-  
+
   /* Text Colors */
   --text-primary: var(--foreground);
   --text-secondary: var(--muted-foreground);
@@ -39,7 +41,12 @@ body {
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   margin: 0 0 0.5em 0;
@@ -230,35 +237,35 @@ p {
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.625rem;
   }
-  
+
   h3 {
     font-size: 1.375rem;
   }
-  
+
   h4 {
     font-size: 1.125rem;
   }
-  
+
   h5 {
     font-size: 1rem;
   }
-  
+
   h6 {
     font-size: 0.875rem;
   }
-  
+
   .text-lg {
     font-size: 1.0625rem;
   }
-  
+
   .text-xl {
     font-size: 1.1875rem;
   }
-  
+
   .text-2xl {
     font-size: 1.3125rem;
   }

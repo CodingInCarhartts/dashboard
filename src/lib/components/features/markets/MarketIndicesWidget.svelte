@@ -65,9 +65,10 @@
     if (searchTimeout) clearTimeout(searchTimeout);
   });
 
-  $: filteredIndices = indices.filter(index =>
-    index.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    index.name.toLowerCase().includes(searchTerm.toLowerCase())
+  $: filteredIndices = indices.filter(
+    (index) =>
+      index.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      index.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   $: displayedIndices = filteredIndices.length > 0 ? filteredIndices : searchResults;
@@ -94,14 +95,11 @@
 <div class="widget">
   <div class="widget-header">
     <h3>Market Indices</h3>
-    <button on:click={refreshIndices} disabled={loading} class="refresh-btn"><img src="/refresh.png" alt="Refresh" class="refresh-icon" /></button>
+    <button on:click={refreshIndices} disabled={loading} class="refresh-btn"
+      ><img src="/refresh.png" alt="Refresh" class="refresh-icon" /></button
+    >
   </div>
-  <input
-    type="text"
-    placeholder="Search indices..."
-    bind:value={searchTerm}
-    class="search-input"
-  />
+  <input type="text" placeholder="Search indices..." bind:value={searchTerm} class="search-input" />
   {#if loading}
     <p>Fetching market data...</p>
   {:else if searchLoading}
@@ -111,17 +109,40 @@
       {#each displayedIndices as index}
         <div class="index-item">
           <div class="index-info">
-            <a class="symbol" href="https://finance.yahoo.com/quote/{index.symbol}" target="_blank" rel="noopener">{index.symbol.replace('^', '')}</a>
+            <a
+              class="symbol"
+              href="https://finance.yahoo.com/quote/{index.symbol}"
+              target="_blank"
+              rel="noopener">{index.symbol.replace('^', '')}</a
+            >
             <span class="name">{index.name}</span>
           </div>
           <div class="index-price">
-            <span class="price">{index.price?.toLocaleString('en-US', { maximumFractionDigits: index.symbol === '^VIX' ? 1 : 0 }) ?? 'N/A'}</span>
-            <span class="change" class:positive={index.change && index.change > 0} class:negative={index.change && index.change < 0}>
-              {index.change && index.change > 0 ? '+' : ''}{index.change?.toFixed(2) ?? 'N/A'} ({index.changePercent && index.changePercent > 0 ? '+' : ''}{index.changePercent?.toFixed(2) ?? 'N/A'}%)
+            <span class="price"
+              >{index.price?.toLocaleString('en-US', {
+                maximumFractionDigits: index.symbol === '^VIX' ? 1 : 0,
+              }) ?? 'N/A'}</span
+            >
+            <span
+              class="change"
+              class:positive={index.change && index.change > 0}
+              class:negative={index.change && index.change < 0}
+            >
+              {index.change && index.change > 0 ? '+' : ''}{index.change?.toFixed(2) ?? 'N/A'} ({index.changePercent &&
+              index.changePercent > 0
+                ? '+'
+                : ''}{index.changePercent?.toFixed(2) ?? 'N/A'}%)
             </span>
             {#if index.changePercent}
-              <div class="change-bar" class:positive={index.changePercent > 0} class:negative={index.changePercent < 0}>
-                <div class="bar-fill" style="width: {Math.min(Math.abs(index.changePercent), 10) * 10}%"></div>
+              <div
+                class="change-bar"
+                class:positive={index.changePercent > 0}
+                class:negative={index.changePercent < 0}
+              >
+                <div
+                  class="bar-fill"
+                  style="width: {Math.min(Math.abs(index.changePercent), 10) * 10}%"
+                ></div>
               </div>
             {/if}
           </div>

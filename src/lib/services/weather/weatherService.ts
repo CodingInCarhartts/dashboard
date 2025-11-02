@@ -3,7 +3,11 @@ import { cache } from '../../cache';
 import { CACHE_CONFIG } from '../../config/cache';
 
 class WeatherServiceImpl implements WeatherService {
-  async fetchWeather(latitude: number, longitude: number, units: string): Promise<WeatherApiResponse> {
+  async fetchWeather(
+    latitude: number,
+    longitude: number,
+    units: string
+  ): Promise<WeatherApiResponse> {
     const cacheKey = `weather_${latitude}_${longitude}_${units}`;
     return cache.getOrFetch(
       cacheKey,

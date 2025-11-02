@@ -13,7 +13,7 @@ export const VIDEOS_CONFIG: { channels: YoutubeChannel[]; limit: number } = {
     { id: 'UCNvzD7Z-g64bPXxGzaQaa4g', name: 'Gameranx' },
     { id: 'UCZ7AeeVbyslLM_8-nVy2B8Q', name: 'Skill Up' },
     { id: 'UCHDxYLv8iovIbhrfl16CNyg', name: 'GameLinked' },
-    { id: 'UC9PBzalIcEQCsiIkq36PyUA', name: 'Digital Foundry' }
+    { id: 'UC9PBzalIcEQCsiIkq36PyUA', name: 'Digital Foundry' },
   ],
-  limit: 3
+  limit: 3,
 };

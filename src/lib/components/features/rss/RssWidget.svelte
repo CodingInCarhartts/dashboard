@@ -27,9 +27,11 @@
       const allItems: RssItem[] = [];
       for (const feed of feeds) {
         const feedItems = await fetchFeed(feed.url, feed.limit || 5);
-        allItems.push(...feedItems.map(item => ({ ...item, feedTitle: feed.title })));
+        allItems.push(...feedItems.map((item) => ({ ...item, feedTitle: feed.title })));
       }
-      items = allItems.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+      items = allItems.sort(
+        (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
+      );
     } catch (err) {
       error = 'Failed to load RSS feeds';
     } finally {
@@ -52,4 +54,3 @@
     </ul>
   {/if}
 </div>
-

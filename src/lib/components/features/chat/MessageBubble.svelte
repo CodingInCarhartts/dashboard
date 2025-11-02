@@ -9,7 +9,7 @@
     try {
       await navigator.clipboard.writeText(message.content);
       copied = true;
-      setTimeout(() => copied = false, 2000);
+      setTimeout(() => (copied = false), 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
@@ -20,12 +20,17 @@
   <div class="message-role">{message.role}</div>
   {#if message.role === 'assistant' && message.provider && message.model}
     <div class="message-provider-tag">
-      {message.provider}: {message.model}</div>
+      {message.provider}: {message.model}
+    </div>
   {/if}
   <div class="message-content message-{message.role}">
     {message.content}
     {#if message.role === 'assistant'}
-      <button class="copy-button" on:click={copyToClipboard} title={copied ? 'Copied!' : 'Copy to clipboard'}>
+      <button
+        class="copy-button"
+        on:click={copyToClipboard}
+        title={copied ? 'Copied!' : 'Copy to clipboard'}
+      >
         {copied ? '✓' : '📋'}
       </button>
     {/if}

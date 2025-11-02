@@ -7,6 +7,6 @@ export const getPerplexityModels = (): ChatModel[] => {
     { id: 'sonar-reasoning', name: 'Sonar Reasoning' },
     { id: 'sonar-reasoning-pro', name: 'Sonar Reasoning Pro' },
     { id: 'sonar-deep-research', name: 'Sonar Deep Research' },
-    { id: 'r1-1776', name: 'R1 1776' }
+    { id: 'r1-1776', name: 'R1 1776' },
   ];
 };

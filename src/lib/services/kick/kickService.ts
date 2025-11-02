@@ -17,17 +17,17 @@ class KickServiceImpl implements KickService {
     const accessToken = tokenData.access_token;
 
     const params = new URLSearchParams();
-    channelSlugs.forEach(slug => params.append('slug', slug));
+    channelSlugs.forEach((slug) => params.append('slug', slug));
     const response = await fetch(`https://api.kick.com/public/v1/channels?${params.toString()}`, {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Accept': '*/*'
+        Authorization: `Bearer ${accessToken}`,
+        Accept: '*/*',
       },
     });
     if (!response.ok) {
       throw new Error(`Kick Channels API error: ${response.statusText}`);
     }
-    return await response.json() as KickApiResponse;
+    return (await response.json()) as KickApiResponse;
   }
 }
 

@@ -5,7 +5,7 @@
   import type { RedditPost } from '$lib/types';
   import '$lib/styles/components/features/reddit.css';
 
-  export let subreddits: string[] = REDDIT_CONFIG.entertainmentSubreddits.map(s => s.name);
+  export let subreddits: string[] = REDDIT_CONFIG.entertainmentSubreddits.map((s) => s.name);
 
   let loading = true;
   let error = '';
@@ -47,7 +47,7 @@
       {#each posts as post}
         <li class="reddit-item">
           <a href={post.url} target="_blank" rel="noopener">
-            {#if post.thumbnail && post.thumbnail !== 'self' && post.thumbnail !== 'default' && REDDIT_CONFIG.entertainmentSubreddits.find(s => s.name === post.subreddit)?.showThumbnails}
+            {#if post.thumbnail && post.thumbnail !== 'self' && post.thumbnail !== 'default' && REDDIT_CONFIG.entertainmentSubreddits.find((s) => s.name === post.subreddit)?.showThumbnails}
               <img src={post.thumbnail} alt="" class="thumbnail" />
             {/if}
             <strong>{post.title}</strong>

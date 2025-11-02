@@ -11,7 +11,7 @@ export const MARKETS_CONFIG: { markets: Market[]; indices: Index[] } = {
     { symbol: 'GOOGL', name: 'Alphabet' },
     { symbol: 'AMZN', name: 'Amazon' },
     { symbol: 'META', name: 'Meta Platforms' },
-    { symbol: 'ETH-USD', name: 'Ethereum' }
+    { symbol: 'ETH-USD', name: 'Ethereum' },
   ],
   indices: [
     { symbol: '^GSPC', name: 'S&P 500' },
@@ -21,6 +21,6 @@ export const MARKETS_CONFIG: { markets: Market[]; indices: Index[] } = {
     { symbol: '^VIX', name: 'VIX Fear Index' },
     { symbol: '^NYA', name: 'NYSE Composite' },
     { symbol: '^SOX', name: 'Philadelphia Semiconductor' },
-    { symbol: '^MID', name: 'S&P MidCap 400' }
-  ]
+    { symbol: '^MID', name: 'S&P MidCap 400' },
+  ],
 };

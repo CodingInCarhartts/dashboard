@@ -33,20 +33,21 @@ class TwitchServiceImpl implements TwitchService {
 
     for (const chunk of chunks) {
       const params = new URLSearchParams();
-      chunk.forEach(login => params.append('user_login', login));
+      chunk.forEach((login) => params.append('user_login', login));
       params.append('first', '100'); // Max 100 streams
 
       const response = await fetch(`https://api.twitch.tv/helix/streams?${params.toString()}`, {
         headers: {
           'Client-ID': TWITCH_CONFIG.appAuth.id,
-          'Authorization': `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
       if (!response.ok) {
-        const errorMsg = response.status === 400
-          ? `Bad request - possibly too many user logins (max 100 per request, attempted ${chunk.length})`
-          : `Twitch Streams API error (${response.status}): ${response.statusText}`;
+        const errorMsg =
+          response.status === 400
+            ? `Bad request - possibly too many user logins (max 100 per request, attempted ${chunk.length})`
+            : `Twitch Streams API error (${response.status}): ${response.statusText}`;
         throw new Error(errorMsg);
       }
 

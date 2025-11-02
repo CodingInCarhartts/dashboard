@@ -44,9 +44,10 @@
     if (searchTimeout) clearTimeout(searchTimeout);
   });
 
-  $: filteredMarkets = markets.filter(market =>
-    market.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    market.name.toLowerCase().includes(searchTerm.toLowerCase())
+  $: filteredMarkets = markets.filter(
+    (market) =>
+      market.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      market.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   $: displayedMarkets = filteredMarkets.length > 0 ? filteredMarkets : searchResults;
@@ -73,14 +74,11 @@
 <div class="widget-market">
   <div class="widget-header">
     <h3>Markets</h3>
-    <button on:click={refreshMarkets} disabled={loading} class="refresh-btn"><img src="/refresh.png" alt="Refresh" class="refresh-icon" /></button>
+    <button on:click={refreshMarkets} disabled={loading} class="refresh-btn"
+      ><img src="/refresh.png" alt="Refresh" class="refresh-icon" /></button
+    >
   </div>
-  <input
-    type="text"
-    placeholder="Search markets..."
-    bind:value={searchTerm}
-    class="search-input"
-  />
+  <input type="text" placeholder="Search markets..." bind:value={searchTerm} class="search-input" />
   {#if loading}
     <p>Fetching market data...</p>
   {:else if searchLoading}
@@ -93,4 +91,3 @@
     </div>
   {/if}
 </div>
-

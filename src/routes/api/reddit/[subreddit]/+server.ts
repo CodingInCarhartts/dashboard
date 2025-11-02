@@ -9,7 +9,7 @@ export const GET: RequestHandler = async ({ params }) => {
     const tokenResponse = await fetch('https://www.reddit.com/api/v1/access_token', {
       method: 'POST',
       headers: {
-        'Authorization': `Basic ${btoa(`${REDDIT_ID}:${REDDIT_SECRET}`)}`,
+        Authorization: `Basic ${btoa(`${REDDIT_ID}:${REDDIT_SECRET}`)}`,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: 'grant_type=client_credentials',
@@ -25,7 +25,7 @@ export const GET: RequestHandler = async ({ params }) => {
     // Fetch posts
     const postsResponse = await fetch(`https://oauth.reddit.com/r/${subreddit}/hot?limit=10`, {
       headers: {
-        'Authorization': `bearer ${accessToken}`,
+        Authorization: `bearer ${accessToken}`,
         'User-Agent': 'DashboardApp/1.0',
       },
     });

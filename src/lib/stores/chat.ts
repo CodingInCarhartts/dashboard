@@ -43,7 +43,7 @@ function createChatStore() {
           ...msg,
           timestamp: new Date(msg.timestamp),
         }));
-        update(state => ({ ...state, messages: formattedMessages }));
+        update((state) => ({ ...state, messages: formattedMessages }));
       }
     } catch (e) {
       console.error('Error loading conversation:', e);
@@ -76,7 +76,8 @@ function createChatStore() {
       .eq('id', currentConversationId)
       .single();
 
-    if (error && error.code !== 'PGRST116') { // PGRST116 is "not found"
+    if (error && error.code !== 'PGRST116') {
+      // PGRST116 is "not found"
       throw error;
     }
 
@@ -97,16 +98,14 @@ function createChatStore() {
       // Ensure conversation exists before saving message
       await ensureConversationExists();
 
-      const { error } = await supabase
-        .from('messages')
-        .insert({
-          conversation_id: currentConversationId,
-          role: message.role,
-          content: message.content,
-          provider: message.provider || '',
-          model: message.model || '',
-          timestamp: message.timestamp.toISOString(),
-        });
+      const { error } = await supabase.from('messages').insert({
+        conversation_id: currentConversationId,
+        role: message.role,
+        content: message.content,
+        provider: message.provider || '',
+        model: message.model || '',
+        timestamp: message.timestamp.toISOString(),
+      });
 
       if (error) throw error;
       return null; // Success
@@ -137,7 +136,8 @@ function createChatStore() {
       // Generate title for first user message
       if (message.role === 'user' && currentConversationId) {
         const state = get(chatStore);
-        if (state.messages.length === 1) { // First message
+        if (state.messages.length === 1) {
+          // First message
           generateConversationTitle(currentConversationId, message.content);
         }
       }
@@ -147,15 +147,20 @@ function createChatStore() {
       const newId = crypto.randomUUID();
       currentConversationId = newId;
       localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
-      set({ ...defaultState, currentProvider: defaultState.currentProvider, currentModel: defaultState.currentModel });
+      set({
+        ...defaultState,
+        currentProvider: defaultState.currentProvider,
+        currentModel: defaultState.currentModel,
+      });
     },
     setLoading: (loading: boolean) => update((state) => ({ ...state, isLoading: loading })),
     setError: (error: string) => update((state) => ({ ...state, error })),
-    setCurrentProvider: (provider: Provider) => update((state) => ({
-      ...state,
-      currentProvider: provider,
-      currentModel: CHAT_CONFIG.providers[provider].model,
-    })),
+    setCurrentProvider: (provider: Provider) =>
+      update((state) => ({
+        ...state,
+        currentProvider: provider,
+        currentModel: CHAT_CONFIG.providers[provider].model,
+      })),
     setCurrentModel: (model: string) => update((state) => ({ ...state, currentModel: model })),
     loadConversation: async (conversationId: string) => {
       try {
@@ -172,13 +177,13 @@ function createChatStore() {
             ...msg,
             timestamp: new Date(msg.timestamp),
           }));
-          update(state => ({ ...state, messages: formattedMessages, error: '' }));
+          update((state) => ({ ...state, messages: formattedMessages, error: '' }));
           currentConversationId = conversationId;
           localStorage.setItem(CONVERSATION_ID_KEY, currentConversationId);
         }
       } catch (e) {
         console.error('Error loading conversation:', e);
-        update(state => ({ ...state, error: 'Failed to load conversation' }));
+        update((state) => ({ ...state, error: 'Failed to load conversation' }));
       }
     },
   };

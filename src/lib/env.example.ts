@@ -12,4 +12,3 @@ export const SUPABASE_API_KEY = '';
 export const SUPABASE_DATABASE_PASSWORD = '';
 export const REDDIT_ID = '';
 export const REDDIT_SECRET = '';
-

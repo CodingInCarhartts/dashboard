@@ -4,7 +4,7 @@ import type { TabState } from '../types';
 
 // Default state
 const defaultState: TabState = {
-  activeTab: 'home'
+  activeTab: 'home',
 };
 
 // Create the store
@@ -30,12 +30,12 @@ if (browser) {
 
 // Helper functions
 export function setActiveTab(tabId: string) {
-  tabStore.update(state => ({ ...state, activeTab: tabId }));
+  tabStore.update((state) => ({ ...state, activeTab: tabId }));
 }
 
 export function getActiveTab(): string {
   let currentTab = 'home';
-  tabStore.subscribe(state => {
+  tabStore.subscribe((state) => {
     currentTab = state.activeTab;
   })();
   return currentTab;

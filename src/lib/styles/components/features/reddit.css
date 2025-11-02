@@ -3,7 +3,7 @@
   --widget-gap: 0.75rem;
   --widget-border-radius: var(--radius);
   --widget-transition: all 0.2s ease-in-out;
-  
+
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--widget-border-radius);
@@ -18,7 +18,6 @@
   max-height: 525px;
   overflow: hidden;
 }
-
 
 .reddit-list {
   flex: 1;

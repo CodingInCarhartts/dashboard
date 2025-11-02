@@ -14,7 +14,8 @@
 
   function refreshAll() {
     const now = Date.now();
-    if (now - lastRefresh < 30000) { // 30 second cooldown
+    if (now - lastRefresh < 30000) {
+      // 30 second cooldown
       return;
     }
     lastRefresh = now;
@@ -34,18 +35,35 @@
       <!-- Theme -->
       <button
         type="button"
-        on:click={() => { toggleTheme(); menuOpen = false; }}
+        on:click={() => {
+          toggleTheme();
+          menuOpen = false;
+        }}
         class="flex justify-center items-center w-12 h-12 text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400"
         aria-label="Toggle theme"
       >
         {#if theme === 'light'}
           <!-- Moon icon for switching to dark -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
         {:else}
           <!-- Sun icon for switching to light -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -62,7 +80,10 @@
       <!-- Refresh -->
       <button
         type="button"
-        on:click={() => { refreshAll(); menuOpen = false; }}
+        on:click={() => {
+          refreshAll();
+          menuOpen = false;
+        }}
         class="flex justify-center items-center w-12 h-12 text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400"
         aria-label="Refresh All"
       >
@@ -74,8 +95,9 @@
   <!-- Main FAB -->
   <button
     type="button"
-    on:click={() => menuOpen = !menuOpen}
-    class="flex items-center justify-center text-black bg-yellow-400 w-12 h-12 border-2 border-black focus:outline-none transition-all hover:translate-y-1 hover:shadow-sm font-bold" style="box-shadow: 4px 4px 0px black;"
+    on:click={() => (menuOpen = !menuOpen)}
+    class="flex items-center justify-center text-black bg-yellow-400 w-12 h-12 border-2 border-black focus:outline-none transition-all hover:translate-y-1 hover:shadow-sm font-bold"
+    style="box-shadow: 4px 4px 0px black;"
     aria-label="Open menu"
   >
     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2">
@@ -84,4 +106,3 @@
     <span class="sr-only">Open menu</span>
   </button>
 </div>
-

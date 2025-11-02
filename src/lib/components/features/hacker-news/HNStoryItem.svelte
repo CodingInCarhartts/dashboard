@@ -4,7 +4,11 @@
 </script>
 
 <li class="hn-item">
-  <a href={story.url || `https://news.ycombinator.com/item?id=${story.id}`} target="_blank" rel="noopener">
+  <a
+    href={story.url || `https://news.ycombinator.com/item?id=${story.id}`}
+    target="_blank"
+    rel="noopener"
+  >
     <strong>{story.title}</strong>
   </a>
   <div class="meta">

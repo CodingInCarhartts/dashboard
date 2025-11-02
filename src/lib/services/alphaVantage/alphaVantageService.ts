@@ -9,7 +9,9 @@ export async function fetchDailyOHLC(symbol: string): Promise<OHLCData[]> {
     cacheKey,
     async () => {
       try {
-        const response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${ALPHA_VANTAGE_API_KEY}`);
+        const response = await fetch(
+          `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${ALPHA_VANTAGE_API_KEY}`
+        );
         const data = await response.json();
 
         if (data['Time Series (Daily)']) {
@@ -17,12 +19,12 @@ export async function fetchDailyOHLC(symbol: string): Promise<OHLCData[]> {
           const ohlc: OHLCData[] = Object.keys(series)
             .sort()
             .slice(-5) // Last 5 days
-            .map(date => ({
+            .map((date) => ({
               date,
               open: parseFloat(series[date]['1. open']),
               high: parseFloat(series[date]['2. high']),
               low: parseFloat(series[date]['3. low']),
-              close: parseFloat(series[date]['4. close'])
+              close: parseFloat(series[date]['4. close']),
             }));
           return ohlc;
         } else {
@@ -37,4 +39,3 @@ export async function fetchDailyOHLC(symbol: string): Promise<OHLCData[]> {
     CACHE_CONFIG.markets.ttl
   );
 }
-

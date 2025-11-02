@@ -18,8 +18,8 @@
 
       // Extract unique tags
       const tagSet = new Set<string>();
-      articles.forEach(article => {
-        article.tags?.forEach(tag => tagSet.add(tag));
+      articles.forEach((article) => {
+        article.tags?.forEach((tag) => tagSet.add(tag));
       });
       availableTags = Array.from(tagSet).sort();
     } catch (err) {
@@ -31,7 +31,7 @@
   }
 
   $: filteredArticles = selectedTag
-    ? articles.filter(article => article.tags?.includes(selectedTag))
+    ? articles.filter((article) => article.tags?.includes(selectedTag))
     : articles;
 
   onMount(fetchArticles);

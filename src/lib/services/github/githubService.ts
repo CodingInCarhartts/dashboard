@@ -8,7 +8,9 @@ class GithubServiceImpl implements GithubService {
     return cache.getOrFetch(
       cacheKey,
       async () => {
-        const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=${limit}&type=owner`);
+        const response = await fetch(
+          `https://api.github.com/users/${username}/repos?sort=updated&per_page=${limit}&type=owner`
+        );
         if (!response.ok) {
           throw new Error(`GitHub API error: ${response.statusText}`);
         }

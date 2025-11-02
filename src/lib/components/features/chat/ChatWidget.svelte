@@ -12,14 +12,19 @@
     return Math.random().toString(36).substring(2) + Date.now().toString(36);
   }
 
-  async function addMessage(role: 'user' | 'assistant', content: string, provider?: string, model?: string): Promise<void> {
+  async function addMessage(
+    role: 'user' | 'assistant',
+    content: string,
+    provider?: string,
+    model?: string
+  ): Promise<void> {
     const message = {
       id: generateId(),
       role,
       content,
       timestamp: new Date(),
       provider,
-      model
+      model,
     };
 
     // Add to store (handles DB saving and state updates)
@@ -37,13 +42,20 @@
     chatStore.setLoading(true);
 
     try {
-      const chatMessages = $chatStore.messages.map(msg => ({
+      const chatMessages = $chatStore.messages.map((msg) => ({
         role: msg.role,
-        content: msg.content
+        content: msg.content,
       }));
 
-      const response = await chatService.getChatResponse($chatStore.currentProvider, chatMessages, { model: $chatStore.currentModel });
-      await addMessage('assistant', response.response, $chatStore.currentProvider, $chatStore.currentModel);
+      const response = await chatService.getChatResponse($chatStore.currentProvider, chatMessages, {
+        model: $chatStore.currentModel,
+      });
+      await addMessage(
+        'assistant',
+        response.response,
+        $chatStore.currentProvider,
+        $chatStore.currentModel
+      );
     } catch (err) {
       console.error('Chat error:', err);
       error = err instanceof Error ? err.message : 'Failed to get response';
@@ -90,28 +102,25 @@
       >
         <img src="/perplexity-book-dark.png" alt="Perplexity AI" />
       </button>
-       <button
-         class="provider-button {$chatStore.currentProvider === 'gemini' ? 'active' : ''}"
-         on:click={() => switchProvider('gemini')}
-       >
-         <img src="/google-gemini.png" alt="Google Gemini" />
-       </button>
-       <button
-         class="provider-button {$chatStore.currentProvider === 'minimax' ? 'active' : ''}"
-         on:click={() => switchProvider('minimax')}
-       >
-         <img src="/minimax-color.png" alt="MiniMax" />
-       </button>
-       {#if $chatStore.messages.length > 0}
-        <button class="clear-chat" on:click={clearChat}>
-          Clear Chat
-        </button>
+      <button
+        class="provider-button {$chatStore.currentProvider === 'gemini' ? 'active' : ''}"
+        on:click={() => switchProvider('gemini')}
+      >
+        <img src="/google-gemini.png" alt="Google Gemini" />
+      </button>
+      <button
+        class="provider-button {$chatStore.currentProvider === 'minimax' ? 'active' : ''}"
+        on:click={() => switchProvider('minimax')}
+      >
+        <img src="/minimax-color.png" alt="MiniMax" />
+      </button>
+      {#if $chatStore.messages.length > 0}
+        <button class="clear-chat" on:click={clearChat}> Clear Chat </button>
       {/if}
     </div>
   </div>
 
   <div class="chat-container">
-
     <div class="chat-messages">
       {#if $chatStore.messages.length === 0}
         <div class="chat-empty">
@@ -119,9 +128,9 @@
           <p>Start a conversation with {CHAT_CONFIG.providers[$chatStore.currentProvider].name}</p>
         </div>
       {:else}
-         {#each $chatStore.messages as message (message.id)}
-           <MessageBubble {message} />
-         {/each}
+        {#each $chatStore.messages as message (message.id)}
+          <MessageBubble {message} />
+        {/each}
       {/if}
 
       {#if $chatStore.isLoading}

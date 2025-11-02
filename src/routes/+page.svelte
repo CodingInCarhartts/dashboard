@@ -6,4 +6,3 @@
 
 <TabbedDashboard />
 <ThemeFAB />
-
