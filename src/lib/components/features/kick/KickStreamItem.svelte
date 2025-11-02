@@ -8,8 +8,8 @@
     <img src={channel.stream.thumbnail} alt={channel.stream_title} class="thumbnail" />
     <div class="stream-info">
       <h4>{channel.stream_title}</h4>
-      <p>{channel.slug} • {channel.category.name}</p>
-      <span class="viewers">{channel.stream.viewer_count.toLocaleString()} viewers</span>
+      <small>{channel.slug}</small>
+      <small>{channel.category.name} • {channel.stream.viewer_count.toLocaleString()} viewers</small>
     </div>
   </a>
 </div>

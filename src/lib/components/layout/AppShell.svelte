@@ -10,12 +10,14 @@
   <div class="flex flex-col min-h-0">
     <Header />
      <main class="flex-1 overflow-auto">
-       <div class="p-4 md:p-6">
+       <div class="p-4 md:p-6 pb-20">
          {@render children?.()}
        </div>
      </main>
-     <footer class="p-4 border-t bg-background w-3/4 mx-auto">
-       <CalendarWidget />
+     <footer class="border-t bg-background w-full">
+       <div class="p-4 w-3/4 mx-auto">
+         <CalendarWidget />
+       </div>
      </footer>
    </div>
 </div>
